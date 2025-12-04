@@ -1,0 +1,25 @@
+name: TribeDailyRewards
+version: '1.0'
+main: TribeDailyRewards.tribeDailyRewards.TribeDailyRewards
+api-version: '1.21'
+
+commands:
+  reward:
+    usage: /<command>
+    description: Can be used to get yours daily reward
+    permission: tribeDailyRewards.reward
+
+  setRewardLevel:
+    usage: /<command> <player> <val>
+    description: Set player reward level to certain value
+    permission: tribeDailyRewards.admin
+
+  resetRewardTimer:
+    usage: /<command> <player>
+    description: Set player reward timer to now
+    permission: tribeDailyRewards.admin
+
+  rewardInfo:
+    usage: /<command>
+    description: Show info panel about player reward stats
+    permission: tribeDailyRewards.admin

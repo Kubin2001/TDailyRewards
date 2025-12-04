@@ -69,7 +69,7 @@ public class ItemParser {
             CreateItem(12,Material.IRON_BLOCK,16);
             CreateItem(12,Material.GOLD_BLOCK,16);
 
-            CreateItem(13,Material.EXPERIENCE_BOTTLE,1);
+            CreateItem(13,Material.EXPERIENCE_BOTTLE,64);
 
             CreateItem(14,Material.NETHERITE_INGOT,1);
 

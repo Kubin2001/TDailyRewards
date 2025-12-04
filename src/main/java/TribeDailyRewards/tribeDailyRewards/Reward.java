@@ -61,16 +61,22 @@ public class Reward implements  CommandExecutor{
 	int rewardDays = Helpers.GetPlayerRewardLevel (uuid);
 
 	if(ItemParser.loadedItems.containsKey (rewardDays)){
-	    ParseReward (p,uuid,rewardDays);
+	    ParseReward (p,uuid,rewardDays,false);
 	}
 	else{
-	    ParseReward (p,uuid,-1);
+	    ParseReward (p,uuid,rewardDays,true);
 	}
 	return  true;
     }
 
-    public void ParseReward(Player p, String uuid, int rewardDays){
-	ArrayList<LoadedItem> possibleItems = ItemParser.loadedItems.get (rewardDays);
+    public void ParseReward(Player p, String uuid, int rewardDays, boolean finalScalling){
+	ArrayList<LoadedItem> possibleItems = null;
+	if(finalScalling){
+	    possibleItems = ItemParser.loadedItems.get (-1);
+	}
+	else{
+	    possibleItems = ItemParser.loadedItems.get (rewardDays);
+	}
 	if(possibleItems == null){
 	    Helpers.SendFormated (p,Lang.GetTrans ("EmptyReward"));
 	    Helpers.SetPlayerRewardTimer (uuid, LocalDateTime.now ().plusDays (1));

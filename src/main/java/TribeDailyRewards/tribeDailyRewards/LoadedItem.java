@@ -1,12 +1,10 @@
 package TribeDailyRewards.tribeDailyRewards;
 
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class LoadedItem{
     public Material material;
@@ -15,6 +13,7 @@ public class LoadedItem{
     public ArrayList<FullEnchant> enchants = null;
     public int money = 0;
     public int scalingStart = -1;
+    public String cutomMassage = null;
 
     public LoadedItem (Material material, String customName, int amount, ArrayList<FullEnchant> enchants, int money,
     int scalingStart){

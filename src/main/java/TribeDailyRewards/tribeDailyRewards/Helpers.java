@@ -111,4 +111,8 @@ public class Helpers {
 	retItem.setItemMeta(meta);
 	return retItem;
     }
+
+    public static String GetItemName(Material material){
+	return material.name ().toLowerCase ().replace ("_", " ");
+    }
 }

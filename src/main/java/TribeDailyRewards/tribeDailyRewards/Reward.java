@@ -7,13 +7,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.awt.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Reward implements  CommandExecutor{
 
@@ -93,14 +90,22 @@ public class Reward implements  CommandExecutor{
 	ItemStack item = lItem.ToItem (rewardDays);
 	if(item != null){
 	    p.getInventory ().addItem (item);
+	    if(lItem.cutomMassage != null){
+		Helpers.SendFormated (p,lItem.cutomMassage);
+	    }
+	    else{
+		Helpers.SendFormated (p, Lang.GetTrans ("RewardGetInfo") + rewardDays);
+		Helpers.SendFormated (p, Lang.GetTrans ("RewardItemInfo") +
+					 lItem.amount + " " + Helpers.GetItemName (lItem.material));
+	    }
 	}
-
-	Helpers.SendFormated (p, Lang.GetTrans ("RewardGetInfo") + rewardDays);
 
 	int money = lItem.ToMoney (rewardDays);
 	if(money != 0){
 	    Helpers.getEco ().depositPlayer (p,money);
-	    Helpers.SendFormated (p,Lang.GetTrans ("RewardMoneyInfo") + money);
+	    if(lItem.cutomMassage == null){
+		Helpers.SendFormated (p,Lang.GetTrans ("RewardMoneyInfo") + money);
+	    }
 	}
 
 	Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);

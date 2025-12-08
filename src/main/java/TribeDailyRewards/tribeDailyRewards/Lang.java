@@ -52,6 +52,7 @@ public class Lang {
         mainSec.set("WaitTime","&4You need to wait: ");
         mainSec.set("EmptyReward","&4There is no reward for this day");
         mainSec.set("RewardGetInfo","&bYou received reward for day:  &4&l");
+        mainSec.set("RewardItemInfo","&2&l");
         mainSec.set("RewardMoneyInfo","&bMoney: ");
         mainSec.set("RewardReady","&6&lYou can get daily reward type /reward");
         yamlLocale.save(engLocale);
@@ -75,6 +76,7 @@ public class Lang {
         mainSec.set("MissingTimerP","&4Bład pluginu nie znaleziono czasu nagrody gracza skontaktuj się z administracją");
         mainSec.set("WaitTime","&4Musisz poczekać: ");
         mainSec.set("EmptyReward","&4Za ten dzień nie ma nagrody");
+        mainSec.set("RewardItemInfo","&2&l");
         mainSec.set("RewardGetInfo","&bOtrzymałeś nagrodę za dzień:  &4&l");
         mainSec.set("RewardMoneyInfo","&bMonety: ");
         mainSec.set("RewardReady","&6&lMożesz odebrać codzienną nagrodę wpisz /reward");

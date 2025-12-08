@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ItemParser {
     private static Plugin plugin = null;
@@ -31,7 +32,30 @@ public class ItemParser {
             yamlData = new YamlConfiguration();
 
             mainSection  = yamlData.createSection("Items");
-
+            List<String> comments = new ArrayList<String> ();
+            comments.add ("-------------TribeDailyRewards-------------");
+            comments.add ("Day: Represents at which day player will get reward can be any number");
+            comments.add ("If there is a break in days like 1,2,3,4,8,9...");
+            comments.add ("All empty days will be treated as -1");
+            comments.add ("-1 Is a special day which is called when no day is fulfilled perfect for unlimited rewards");
+            comments.add ("");
+            comments.add ("Name");
+            comments.add ("Represents material which item uses so in reality what item you will get");
+            comments.add ("Amount");
+            comments.add ("Represent how many items you will get base is 1");
+            comments.add ("Custom Name");
+            comments.add ("Represents if item has custom name supports color coding like &6, &9, &2&l");
+            comments.add ("Enchants");
+            comments.add ("Allows for defining a list of enchantments supports overriding vanilla values");
+            comments.add ("Money");
+            comments.add ("Accepts number how much money player will gain base is 0");
+            comments.add ("Scalling");
+            comments.add ("Special atribute decides if present if money or amount is multiplied by the amount of days");
+            comments.add ("player is above the reward day");
+            comments.add ("Custom Massage");
+            comments.add ("Overrides base massage which pops up when player gets the reward also supports color codes");
+            comments.add ("-------------------------------------------");
+            yamlData.setComments ("How to",comments);
             //CreateItem(3,Material.EMERALD,4,"&6Szmaragd uszaty śmieszny",null,0);
 
             CreateItem(1,Material.IRON_INGOT,4);
@@ -200,6 +224,9 @@ public class ItemParser {
             }
             int money = confItem.getInt("Money", 0);
             loadedItems.get(day).add (new LoadedItem (material,customName ,amount,enchants,money,scale));
+            LoadedItem item = loadedItems.get (day).getLast ();
+            item.cutomMassage = confItem.getString ("CustomMassage",null);
+
         }
     }
 }

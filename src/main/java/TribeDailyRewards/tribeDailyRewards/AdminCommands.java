@@ -79,10 +79,10 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
 	    Helpers.SetPlayerRewardTimer (target.getUniqueId ().toString (), LocalDateTime.now ());
 
 	    if(sender instanceof Player p){
-		Helpers.SendFormated (p,Lang.GetTrans ("Restarted!"));
+		Helpers.SendFormated (p,Lang.GetTrans ("ResetFor"));
 	    }
 	    else{
-		Bukkit.getLogger ().info (Lang.GetTrans ("Restarted!"));
+		Bukkit.getLogger ().info (Lang.GetTrans ("ResetFor"));
 	    }
 
 	    return true;

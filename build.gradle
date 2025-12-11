@@ -61,3 +61,8 @@ processResources {
         expand props
     }
 }
+
+jar {
+    archiveBaseName.set("TDailyRewards")
+    archiveVersion.set("1.0")
+}

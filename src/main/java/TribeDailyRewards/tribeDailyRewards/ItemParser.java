@@ -49,13 +49,13 @@ public class ItemParser {
             comments.add ("Allows for defining a list of enchantments supports overriding vanilla values");
             comments.add ("Money");
             comments.add ("Accepts number how much money player will gain base is 0");
-            comments.add ("Scalling");
-            comments.add ("Special atribute decides if present if money or amount is multiplied by the amount of days");
+            comments.add ("Scaling");
+            comments.add ("Special attribute decides if present if money or amount is multiplied by the amount of days");
             comments.add ("player is above the reward day");
             comments.add ("Custom Massage");
             comments.add ("Overrides base massage which pops up when player gets the reward also supports color codes");
             comments.add ("-------------------------------------------");
-            yamlData.setComments ("How to",comments);
+            yamlData.setComments ("Items",comments);
             //CreateItem(3,Material.EMERALD,4,"&6Szmaragd uszaty śmieszny",null,0);
 
             CreateItem(1,Material.IRON_INGOT,4);

@@ -20,6 +20,6 @@ commands:
     permission: tribeDailyRewards.admin
 
   rewardInfo:
-    usage: /<command>
+    usage: /<command> <player>
     description: Show info panel about player reward stats
     permission: tribeDailyRewards.admin

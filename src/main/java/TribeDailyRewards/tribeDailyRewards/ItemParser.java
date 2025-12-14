@@ -24,6 +24,12 @@ public class ItemParser {
     public static HashMap<Integer, ArrayList<LoadedItem>> loadedItems = new HashMap<>();
     public static HashMap<Integer, Integer> itemHelper = new HashMap<>(); // Dzień Ilośc
 
+    public static void Clear(){
+        configFile = null;
+        mainSection = null;
+        loadedItems.clear ();
+        itemHelper.clear ();
+    }
 
     static void Init(Plugin plugin){
         ItemParser.plugin = plugin;

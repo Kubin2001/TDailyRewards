@@ -23,3 +23,13 @@ commands:
     usage: /<command> <player>
     description: Show info panel about player reward stats
     permission: tribeDailyRewards.admin
+
+  restart:
+    usage: /<command>
+    description: Restarts main config
+    permission: tribeDailyRewards.restart
+
+  restartItems:
+    usage: /<command>
+    description: Restarts items Config
+    permission: tribeDailyRewards.restartItems

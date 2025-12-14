@@ -42,6 +42,8 @@ public final class TribeDailyRewards extends JavaPlugin {
         Helpers.Init (data,dates,eco);
         getServer ().getPluginManager ().registerEvents (new TribeEventListener(this),this);
         getCommand ("reward").setExecutor (new Reward ());
+        getCommand ("restart").setExecutor (new CommandRestart (this));
+        getCommand ("restartItems").setExecutor (new CommandRestartItems (this));
 
         AdminCommands handler = new AdminCommands ();
 
@@ -53,6 +55,7 @@ public final class TribeDailyRewards extends JavaPlugin {
 
         getCommand ("rewardInfo").setExecutor (handler);
         getCommand ("rewardInfo").setTabCompleter (handler);
+
 
         if(dataFile.exists()){
             try{

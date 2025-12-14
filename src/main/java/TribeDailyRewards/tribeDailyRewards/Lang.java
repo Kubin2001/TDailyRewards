@@ -55,6 +55,8 @@ public class Lang {
         mainSec.set("RewardItemInfo","&2&l");
         mainSec.set("RewardMoneyInfo","&bMoney: ");
         mainSec.set("RewardReady","&6&lYou can get daily reward type /reward");
+        mainSec.set("Restarted","&7Main Config Restarted");
+        mainSec.set("ItemsRestarted","&7Items Config Restarted");
         yamlLocale.save(engLocale);
     }
 
@@ -80,6 +82,8 @@ public class Lang {
         mainSec.set("RewardGetInfo","&bOtrzymałeś nagrodę za dzień:  &4&l");
         mainSec.set("RewardMoneyInfo","&bMonety: ");
         mainSec.set("RewardReady","&6&lMożesz odebrać codzienną nagrodę wpisz /reward");
+        mainSec.set("Restarted","&7Główny plik konfiguracyjny został zrestartowany");
+        mainSec.set("ItemsRestarted","&7Konfiguracja itemów zrestartowana");
         yamlLocale.save(engLocale);
     }
 
@@ -108,9 +112,9 @@ public class Lang {
         }
 
         Bukkit.getLogger().info("[Daily Reward] Loaded lang functions");
-        for(Map.Entry<String ,String> entry : langMap.entrySet ()){
-            Bukkit.getLogger().info(entry.getKey() + "  " + entry.getValue());
-        }
+//        for(Map.Entry<String ,String> entry : langMap.entrySet ()){
+//            Bukkit.getLogger().info(entry.getKey() + "  " + entry.getValue());
+//        }
     }
 
     public static String GetTrans(String key){

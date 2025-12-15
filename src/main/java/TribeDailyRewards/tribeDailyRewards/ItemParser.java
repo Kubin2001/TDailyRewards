@@ -61,9 +61,30 @@ public class ItemParser {
             comments.add ("Custom Massage");
             comments.add ("Overrides base massage which pops up when player gets the reward also supports color codes");
             comments.add ("-------------------------------------------");
+            comments.add ("Example item just copy what you need from this one");
+            comments.add("SomeItem:");
+            comments.add("  Day: 1");
+            comments.add("  ScalingStart: 10");
+            comments.add("  Money: 200");
+            comments.add("  Name: DIAMOND");
+            comments.add("  Amount: 4");
+            comments.add("  CustomName: '&2&lReward Diamond'");
+            comments.add("  Enchants:");
+            comments.add("      sharpness: 5");
+            comments.add("      unbreaking: 3");
+            comments.add("      efficiency: 8");
+            comments.add("  Enchants:");
+            comments.add("  CustomMessage: '&6&lYou just recived your great reward'");
+            comments.add ("-------------------------------------------");
+
             yamlData.setComments ("Items",comments);
             //CreateItem(3,Material.EMERALD,4,"&6Szmaragd uszaty śmieszny",null,0);
 
+            ArrayList<FullEnchant> enchants = new ArrayList<> ();
+            enchants.add (new FullEnchant (Enchantment.SHARPNESS,5));
+            enchants.add (new FullEnchant (Enchantment.UNBREAKING,3));
+            enchants.add (new FullEnchant (Enchantment.EFFICIENCY,8));
+            CreateItemFull (12,Material.DIAMOND,4,"&2&lReward Diamond",enchants,200,10);
             CreateItem(1,Material.IRON_INGOT,4);
 
             CreateItem(2,Material.GOLD_INGOT,4);
@@ -231,7 +252,7 @@ public class ItemParser {
             int money = confItem.getInt("Money", 0);
             loadedItems.get(day).add (new LoadedItem (material,customName ,amount,enchants,money,scale));
             LoadedItem item = loadedItems.get (day).getLast ();
-            item.cutomMassage = confItem.getString ("CustomMassage",null);
+            item.cutomMassage = confItem.getString ("CustomMessage",null);
 
         }
     }

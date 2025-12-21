@@ -57,6 +57,7 @@ public class Lang {
         mainSec.set("RewardReady","&6&lYou can get daily reward type /reward");
         mainSec.set("Restarted","&7Main Config Restarted");
         mainSec.set("ItemsRestarted","&7Items Config Restarted");
+        mainSec.set("RewardGUI","&2Reward Menu");
         yamlLocale.save(engLocale);
     }
 
@@ -84,6 +85,7 @@ public class Lang {
         mainSec.set("RewardReady","&6&lMożesz odebrać codzienną nagrodę wpisz /reward");
         mainSec.set("Restarted","&7Główny plik konfiguracyjny został zrestartowany");
         mainSec.set("ItemsRestarted","&7Konfiguracja itemów zrestartowana");
+        mainSec.set("RewardGUI","&2Menu Nagrody");
         yamlLocale.save(engLocale);
     }
 

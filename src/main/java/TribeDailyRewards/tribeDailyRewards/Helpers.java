@@ -39,7 +39,7 @@ public class Helpers {
     }
 
     public static int GetRandom(int min, int max){
-	return rand.nextInt((max - min) + 1) + min;
+	    return rand.nextInt((max - min) + 1) + min;
     }
 
     public static boolean SetPlayerRewardLevel(String uuid, int value){

@@ -84,7 +84,7 @@ public class ItemParser {
             enchants.add (new FullEnchant (Enchantment.SHARPNESS,5));
             enchants.add (new FullEnchant (Enchantment.UNBREAKING,3));
             enchants.add (new FullEnchant (Enchantment.EFFICIENCY,8));
-            CreateItemFull (12,Material.DIAMOND,4,"&2&lReward Diamond",enchants,200,10);
+            //CreateItemFull (12,Material.DIAMOND,4,"&2&lReward Diamond",enchants,200,10);
             CreateItem(1,Material.IRON_INGOT,4);
 
             CreateItem(2,Material.GOLD_INGOT,4);

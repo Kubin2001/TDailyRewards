@@ -52,7 +52,14 @@ public class Reward implements  CommandExecutor{
 
     public void ParseTypeInstant(ItemStack item, LoadedItem lItem, Player p, int rewardDays){
         if(item != null){
-            p.getInventory ().addItem (item);
+            Inventory inv = p.getInventory ();
+            if(inv.firstEmpty () != -1){ // there is a free slot
+                inv.addItem (item);
+            }
+            else{ // No empty drop item at player
+                p.getWorld ().dropItemNaturally (p.getLocation (),item);
+            }
+
             if(lItem.cutomMassage != null){
                 Helpers.SendFormated (p,lItem.cutomMassage);
             }

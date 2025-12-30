@@ -73,7 +73,6 @@ public class ItemParser {
             comments.add("      sharpness: 5");
             comments.add("      unbreaking: 3");
             comments.add("      efficiency: 8");
-            comments.add("  Enchants:");
             comments.add("  CustomMessage: '&6&lYou just recived your great reward'");
             comments.add ("-------------------------------------------");
 
@@ -86,6 +85,9 @@ public class ItemParser {
             enchants.add (new FullEnchant (Enchantment.EFFICIENCY,8));
             //CreateItemFull (12,Material.DIAMOND,4,"&2&lReward Diamond",enchants,200,10);
             CreateItem(1,Material.IRON_INGOT,4);
+
+            CreateItemFull (1,Material.DIAMOND,1,null,null,0,20,2);
+            CreateItemFull (1,Material.IRON_BLOCK,1,null,null,0,20,2);
 
             CreateItem(2,Material.GOLD_INGOT,4);
             CreateItem(2,Material.REDSTONE,16);
@@ -139,8 +141,8 @@ public class ItemParser {
             CreateItem(20,Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE,1);
 
             CreateMoneyScalling (-1,100,20);
-            CreateItemFull (-1,Material.DIAMOND,1,null,null,0,20);
-            CreateItemFull (-1,Material.IRON_BLOCK,1,null,null,0,20);
+            CreateItemFull (-1,Material.DIAMOND,1,null,null,0,20,0);
+            CreateItemFull (-1,Material.IRON_BLOCK,1,null,null,0,20,0);
 
             try {
                 yamlData.save(configFile);
@@ -167,10 +169,10 @@ public class ItemParser {
     }
 
     static private void CreateMoney(int day, int money){
-        CreateItemFull (day,null,0,null,null, money,-1);
+        CreateItemFull (day,null,0,null,null, money,-1,0);
     }
     static private void CreateMoneyScalling(int day, int money,int scaling){
-        CreateItemFull (day,null,0,null,null, money,scaling);
+        CreateItemFull (day,null,0,null,null, money,scaling,0);
     }
     static private void CreateItemAndMoney(int day, Material material, int amount,
                                            String customName, ArrayList<FullEnchant> enchants, int money){
@@ -178,23 +180,27 @@ public class ItemParser {
     }
     static private void CreateItem(int day, Material material, int amount,
                                        String customName, ArrayList<FullEnchant> enchants, int money){
-        CreateItemFull (day,material,amount,customName,enchants,money,-1);
+        CreateItemFull (day,material,amount,customName,enchants,money,-1,0);
     }
 
     static private void CreateItemFull(int day, Material material, int amount,
-                                   String customName, ArrayList<FullEnchant> enchants, int money, int scaling){
+                                       String customName, ArrayList<FullEnchant> enchants,
+                                       int money, int scaling, int joinID){
         Integer count = itemHelper.get (day);
-        if(count == null){
+        if(count == null){ // If this day was not defined previously
             itemHelper.put (day,1);
             count =1;
         }
         else {
-            itemHelper.put (day,count +1);
+            itemHelper.put (day,count +1); // if it was defined
             count +=1;
         }
 
         String name = "Day" + day + "Item" + count;
         ConfigurationSection sec = mainSection.createSection(name);
+        if(joinID != 0){
+            sec.set ("JoinID",joinID);
+        }
         sec.set("Day", day);
         if(scaling != -1){
             sec.set ("ScalingStart",scaling);
@@ -230,6 +236,7 @@ public class ItemParser {
             Material material = Material.getMaterial (materialStr); // May be null it is expected bahaviour
 
             int day = confItem.getInt("Day", 1);
+            int joinID = confItem.getInt ("JoinID",0);
             int amount = confItem.getInt("Amount", 1);
             int scale = confItem.getInt ("ScalingStart",-1);
             if(!loadedItems.containsKey (day)){
@@ -250,7 +257,7 @@ public class ItemParser {
                 }
             }
             int money = confItem.getInt("Money", 0);
-            loadedItems.get(day).add (new LoadedItem (material,customName ,amount,enchants,money,scale));
+            loadedItems.get(day).add (new LoadedItem (material,customName ,amount,enchants,money,scale,joinID));
             LoadedItem item = loadedItems.get (day).getLast ();
             item.cutomMassage = confItem.getString ("CustomMessage",null);
 

@@ -14,15 +14,17 @@ public class LoadedItem{
     public int money = 0;
     public int scalingStart = -1;
     public String cutomMassage = null;
+    public int joinID;
 
     public LoadedItem (Material material, String customName, int amount, ArrayList<FullEnchant> enchants, int money,
-    int scalingStart){
+    int scalingStart, int joinID){
         this.material = material;
         this.customName = customName;
         this.amount = amount;
         this.enchants = enchants;
         this.money = money;
         this.scalingStart = scalingStart;
+        this.joinID = joinID;
     }
 
     @Override

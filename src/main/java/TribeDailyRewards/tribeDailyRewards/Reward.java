@@ -50,48 +50,58 @@ public class Reward implements  CommandExecutor{
         return  true;
     }
 
-    public void ParseTypeInstant(ItemStack item, LoadedItem lItem, Player p, int rewardDays){
-        if(item != null){
-            Inventory inv = p.getInventory ();
-            if(inv.firstEmpty () != -1){ // there is a free slot
-                inv.addItem (item);
-            }
-            else{ // No empty drop item at player
-                p.getWorld ().dropItemNaturally (p.getLocation (),item);
+    public void ParseTypeInstant(ArrayList<LoadedItem> possibleItems, Player p, int rewardDays){
+        for(LoadedItem lItem : possibleItems){
+            ItemStack item = lItem.ToItem (rewardDays);
+            if(item != null){
+                Inventory inv = p.getInventory ();
+                if(inv.firstEmpty () != -1){ // there is a free slot
+                    inv.addItem (item);
+                }
+                else{ // No empty drop item at player
+                    p.getWorld ().dropItemNaturally (p.getLocation (),item);
+                }
+
+                if(lItem.cutomMassage != null){
+                    Helpers.SendFormated (p,lItem.cutomMassage);
+                }
+                else{
+                    Helpers.SendFormated (p, Lang.GetTrans ("RewardGetInfo") + rewardDays);
+                    Helpers.SendFormated (p, Lang.GetTrans ("RewardItemInfo") +
+                                             lItem.amount + " " + Helpers.GetItemName (lItem.material));
+                }
             }
 
-            if(lItem.cutomMassage != null){
-                Helpers.SendFormated (p,lItem.cutomMassage);
-            }
-            else{
-                Helpers.SendFormated (p, Lang.GetTrans ("RewardGetInfo") + rewardDays);
-                Helpers.SendFormated (p, Lang.GetTrans ("RewardItemInfo") +
-                        lItem.amount + " " + Helpers.GetItemName (lItem.material));
-            }
-        }
-
-        int money = lItem.ToMoney (rewardDays);
-        if(money != 0){
-            Helpers.getEco ().depositPlayer (p,money);
-            if(lItem.cutomMassage == null){
-                Helpers.SendFormated (p,Lang.GetTrans ("RewardMoneyInfo") + money);
+            int money = lItem.ToMoney (rewardDays);
+            if(money != 0){
+                Helpers.getEco ().depositPlayer (p,money);
+                if(lItem.cutomMassage == null){
+                    Helpers.SendFormated (p,Lang.GetTrans ("RewardMoneyInfo") + money);
+                }
             }
         }
     }
 
-    public void ParseTypeUI(ItemStack item, LoadedItem lItem, Player p, int rewardDays){
-        if(item != null){
-            Inventory rewardGui = Bukkit.createInventory(null,27,
-                    Helpers.CFormat(Lang.GetTrans("RewardGUI")));
-            rewardGui.setItem(13, item);
-            p.openInventory(rewardGui);
-        }
+    public void ParseTypeUI(ArrayList<LoadedItem> possibleItems, Player p, int rewardDays){
+        int slot = 13;
+        Inventory rewardGui = Bukkit.createInventory(null,27,
+                                                     Helpers.CFormat(Lang.GetTrans("RewardGUI")));
+        for(LoadedItem lItem : possibleItems) {
+            if(slot > 26){break;}
+            ItemStack item = lItem.ToItem (rewardDays);
 
-        int money = lItem.ToMoney (rewardDays);
-        if(money != 0){
-            Helpers.getEco ().depositPlayer (p,money);
-            Helpers.SendFormated (p,Lang.GetTrans ("RewardMoneyInfo") + money);
+            if(item != null){
+                rewardGui.setItem(slot, item);
+            }
+
+            int money = lItem.ToMoney (rewardDays);
+            if(money != 0){
+                Helpers.getEco ().depositPlayer (p,money);
+                Helpers.SendFormated (p,Lang.GetTrans ("RewardMoneyInfo") + money);
+            }
+            slot++;
         }
+        p.openInventory(rewardGui);
     }
 
     public void ParseReward(Player p, String uuid, int rewardDays, boolean finalScalling){
@@ -105,14 +115,27 @@ public class Reward implements  CommandExecutor{
             Helpers.SetPlayerRewardLevel (uuid, rewardDays +1);
             return;
         };
-        LoadedItem lItem = possibleItems.get(Helpers.GetRandom (0,possibleItems.size ()-1));
 
-        ItemStack item = lItem.ToItem (rewardDays);
+        LoadedItem lItem = possibleItems.get(Helpers.GetRandom (0,possibleItems.size ()-1));
+        ArrayList<LoadedItem> allLItems = new ArrayList<> ();
+        ArrayList<ItemStack> allItems = new ArrayList<> ();
+        if(lItem.joinID != 0){ // IF it has join id it searches other items with the same id to merge
+            for(LoadedItem lItemIter : possibleItems){
+                if(lItemIter.joinID == lItem.joinID){
+                    allLItems.add (lItemIter);
+                    allItems.add (lItemIter.ToItem (rewardDays));
+                }
+            }
+        }
+        else{ // If not it will just pass one item
+            allLItems.add (lItem);
+            allItems.add (lItem.ToItem (rewardDays));
+        }
         if(MainConfig.rewardType == 1){
-            ParseTypeInstant(item,lItem,p,rewardDays);
+            ParseTypeInstant(allLItems,p,rewardDays);
         }
         else{
-            ParseTypeUI(item,lItem,p,rewardDays);
+            ParseTypeUI(allLItems,p,rewardDays);
         }
 
         Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);

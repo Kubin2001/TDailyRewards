@@ -21,98 +21,100 @@ public class Helpers {
     private static Map<String, LocalDateTime> dates = null;
     private static Economy eco = null;
 
-    public static void Init(Map<String, Integer> dataMap,  Map<String, LocalDateTime> datesMap, Economy ecoP){
-	data = dataMap;
-	dates = datesMap;
-	rand = new Random ();
-	eco = ecoP;
+    public static void Init(Map<String, Integer> dataMap, Map<String, LocalDateTime> datesMap, Economy ecoP) {
+        data = dataMap;
+        dates = datesMap;
+        rand = new Random();
+        eco = ecoP;
     }
 
-    public static Economy getEco(){return  eco;}
-
-    public static String CFormat(String s){
-	return ChatColor.translateAlternateColorCodes('&', s);
+    public static Economy getEco() {
+        return eco;
     }
 
-    public static void SendFormated(Player p, String s){
-	p.sendMessage(Helpers.CFormat(s));
+    public static String CFormat(String s) {
+        return ChatColor.translateAlternateColorCodes('&', s);
     }
 
-    public static int GetRandom(int min, int max){
-	    return rand.nextInt((max - min) + 1) + min;
+    public static void SendFormated(Player p, String s) {
+        p.sendMessage(Helpers.CFormat(s));
     }
 
-    public static boolean SetPlayerRewardLevel(String uuid, int value){
-	data.put ("RLevel" + uuid,value);
-	return true;
+    public static int GetRandom(int min, int max) {
+        return rand.nextInt((max - min) + 1) + min;
     }
 
-    public static int GetPlayerRewardLevel(String uuid){
-	if(data.containsKey ("RLevel" + uuid)){
-	    return data.get ("RLevel" + uuid);
-	}
-	Bukkit.getLogger().info (Lang.GetTrans ("MissingRewardLevel"));
-	return  -1;
+    public static boolean SetPlayerRewardLevel(String uuid, int value) {
+        data.put("RLevel" + uuid, value);
+        return true;
     }
 
-    public static boolean IsPlayerRewardLevel(String uuid){
-	return data.containsKey ("RLevel" + uuid);
+    public static int GetPlayerRewardLevel(String uuid) {
+        if (data.containsKey("RLevel" + uuid)) {
+            return data.get("RLevel" + uuid);
+        }
+        Bukkit.getLogger().info(Lang.GetTrans("MissingRewardLevel"));
+        return -1;
     }
 
-    public static boolean SetPlayerRewardTimer(String uuid, LocalDateTime value){
-	dates.put ("RTime" + uuid,value);
-	return true;
+    public static boolean IsPlayerRewardLevel(String uuid) {
+        return data.containsKey("RLevel" + uuid);
     }
 
-    public static LocalDateTime GetPlayerRewardTimer(String uuid){
-	if(dates.containsKey ("RTime" + uuid)){
-	    return dates.get ("RTime" + uuid);
-	}
-	Bukkit.getLogger().info (Lang.GetTrans ("MissingRewardTime"));
-	return  LocalDateTime.now ();
+    public static boolean SetPlayerRewardTimer(String uuid, LocalDateTime value) {
+        dates.put("RTime" + uuid, value);
+        return true;
     }
 
-    public static boolean IsPlayerRewardTimer(String uuid){
-	return dates.containsKey ("RTime" + uuid);
+    public static LocalDateTime GetPlayerRewardTimer(String uuid) {
+        if (dates.containsKey("RTime" + uuid)) {
+            return dates.get("RTime" + uuid);
+        }
+        Bukkit.getLogger().info(Lang.GetTrans("MissingRewardTime"));
+        return LocalDateTime.now();
     }
 
-    public static void PlaySoundToPLayer(Player p, Sound sound){
-	p.playSound(p.getLocation(), sound, 1.0f, 1.0f);
+    public static boolean IsPlayerRewardTimer(String uuid) {
+        return dates.containsKey("RTime" + uuid);
     }
 
-    public static void RunTask(Plugin plugin, Runnable task, int delay){
-	Bukkit.getScheduler().runTaskLater(plugin, task ,delay);
+    public static void PlaySoundToPLayer(Player p, Sound sound) {
+        p.playSound(p.getLocation(), sound, 1.0f, 1.0f);
     }
 
-    public static void PlayErrorSound(Player p){
-	p.playSound(p.getLocation(), Sound.ENTITY_HORSE_HURT, 1.0f, 1.0f);
+    public static void RunTask(Plugin plugin, Runnable task, int delay) {
+        Bukkit.getScheduler().runTaskLater(plugin, task, delay);
+    }
+
+    public static void PlayErrorSound(Player p) {
+        p.playSound(p.getLocation(), Sound.ENTITY_HORSE_HURT, 1.0f, 1.0f);
     }
 
     public static void RepairAll(Player player) {
-	for (ItemStack item : player.getInventory().getContents()) {
-	    if (item == null) continue;
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (item == null) continue;
 
-	    ItemMeta meta = item.getItemMeta();
-	    if (meta instanceof Damageable dmg) {
-		dmg.setDamage(0);
-		item.setItemMeta((ItemMeta) dmg);
-	    }
-	}
+            ItemMeta meta = item.getItemMeta();
+            if (meta instanceof Damageable dmg) {
+                dmg.setDamage(0);
+                item.setItemMeta((ItemMeta) dmg);
+            }
+        }
     }
 
-    public static ItemStack CreateItem(Material mat, String name, String desc){
-	ItemStack retItem = new ItemStack(mat);
+    public static ItemStack CreateItem(Material mat, String name, String desc) {
+        ItemStack retItem = new ItemStack(mat);
 
-	ItemMeta meta = retItem.getItemMeta();
-	meta.setDisplayName(Helpers.CFormat(name));
-	List<String> lore = new ArrayList<>();
-	lore.add(Helpers.CFormat(desc));
-	meta.setLore(lore);
-	retItem.setItemMeta(meta);
-	return retItem;
+        ItemMeta meta = retItem.getItemMeta();
+        meta.setDisplayName(Helpers.CFormat(name));
+        List<String> lore = new ArrayList<>();
+        lore.add(Helpers.CFormat(desc));
+        meta.setLore(lore);
+        retItem.setItemMeta(meta);
+        return retItem;
     }
 
-    public static String GetItemName(Material material){
-	return material.name ().toLowerCase ().replace ("_", " ");
+    public static String GetItemName(Material material) {
+        return material.name().toLowerCase().replace("_", " ");
     }
 }

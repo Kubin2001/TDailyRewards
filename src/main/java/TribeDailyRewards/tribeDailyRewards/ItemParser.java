@@ -60,6 +60,9 @@ public class ItemParser {
             comments.add("player is above the reward day");
             comments.add("Custom Massage");
             comments.add("Overrides base massage which pops up when player gets the reward also supports color codes");
+            comments.add("JoinID");
+            comments.add("If join id exist or is not equal to 0 this item will be merged with other " +
+                    "items with the same day and same join id");
             comments.add("-------------------------------------------");
             comments.add("Example item just copy what you need from this one");
             comments.add("SomeItem:");
@@ -74,6 +77,7 @@ public class ItemParser {
             comments.add("      unbreaking: 3");
             comments.add("      efficiency: 8");
             comments.add("  CustomMessage: '&6&lYou just recived your great reward'");
+            comments.add("  JoinID: 1");
             comments.add("-------------------------------------------");
 
             yamlData.setComments("Items", comments);

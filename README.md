@@ -1,10 +1,10 @@
 <div align="center">
 
-# 🌟 TDailyRewards v1.07
+# 🌟 TDailyRewards v1.08
 
 **Highly customizable daily reward plugin for Minecraft Java Edition.**
 
-![Version](https://img.shields.io/badge/version-1.0.7-blue)
+![Version](https://img.shields.io/badge/version-1.0.8-blue)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 
 </div>

@@ -39,7 +39,7 @@ public class ItemParser {
 
             mainSection = yamlData.createSection("Items");
             List<String> comments = new ArrayList<String>();
-            comments.add("-------------TribeDailyRewards-------------");
+            comments.add("-------------TDailyRewards-------------");
             comments.add("Day: Represents at which day player will get reward can be any number");
             comments.add("If there is a break in days like 1,2,3,4,8,9...");
             comments.add("All empty days will be treated as -1");

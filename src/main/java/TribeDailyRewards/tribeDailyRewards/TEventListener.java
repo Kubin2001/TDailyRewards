@@ -14,10 +14,10 @@ import org.bukkit.plugin.Plugin;
 import javax.swing.*;
 import java.time.LocalDateTime;
 
-public class TribeEventListener implements Listener {
+public class TEventListener implements Listener {
     private final Plugin plugin;
 
-    TribeEventListener(Plugin plugin) {
+    TEventListener(Plugin plugin) {
         this.plugin = plugin;
     }
 

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
 
-public final class TribeDailyRewards extends JavaPlugin {
+public final class TDailyRewards extends JavaPlugin {
 
     private final File dataFile = new File(getDataFolder(), "playerData.csv");
     private final File datesFile = new File(getDataFolder(), "dates.csv");
@@ -40,7 +40,7 @@ public final class TribeDailyRewards extends JavaPlugin {
         SetupEconomy();
         ItemParser.Init(this);
         Helpers.Init(data, dates, eco);
-        getServer().getPluginManager().registerEvents(new TribeEventListener(this), this);
+        getServer().getPluginManager().registerEvents(new TEventListener(this), this);
         getCommand("reward").setExecutor(new Reward());
         getCommand("restart").setExecutor(new CommandRestart(this));
         getCommand("restartItems").setExecutor(new CommandRestartItems(this));

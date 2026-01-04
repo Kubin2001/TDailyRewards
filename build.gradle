@@ -64,5 +64,5 @@ processResources {
 
 jar {
     archiveBaseName.set("TDailyRewards")
-    archiveVersion.set("1.09")
+    archiveVersion.set("1.10")
 }

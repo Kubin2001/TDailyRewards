@@ -85,7 +85,8 @@ public class Reward implements CommandExecutor {
     }
 
     public void ParseTypeUI(ArrayList<LoadedItem> possibleItems, Player p, int rewardDays) {
-        int slot = 13;
+        int slot = Math.max(0,13 - possibleItems.size()/2) ;
+        int money = 0;
         Inventory rewardGui = Bukkit.createInventory(null, 27,
                 Helpers.CFormat(Lang.GetTrans("RewardGUI")));
         for (LoadedItem lItem : possibleItems) {
@@ -98,12 +99,12 @@ public class Reward implements CommandExecutor {
                 rewardGui.setItem(slot, item);
             }
 
-            int money = lItem.ToMoney(rewardDays);
-            if (money != 0) {
-                Helpers.getEco().depositPlayer(p, money);
-                Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
-            }
+            money += lItem.ToMoney(rewardDays);
             slot++;
+        }
+        if (money != 0) {
+            Helpers.getEco().depositPlayer(p, money);
+            Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
         }
         p.openInventory(rewardGui);
     }

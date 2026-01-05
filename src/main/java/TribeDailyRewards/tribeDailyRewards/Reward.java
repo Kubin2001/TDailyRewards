@@ -144,7 +144,7 @@ public class Reward implements CommandExecutor {
             ParseTypeUI(allLItems, p, rewardDays);
         }
 
-        Helpers.PlaySoundToPLayer(p, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+        Helpers.PlayerPositiveSound(p);
         Helpers.SetPlayerRewardTimer(uuid, LocalDateTime.now().plusDays(1));
         Helpers.SetPlayerRewardLevel(uuid, rewardDays + 1);
     }

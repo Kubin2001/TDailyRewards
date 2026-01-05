@@ -78,6 +78,8 @@ public class Helpers {
         return dates.containsKey("RTime" + uuid);
     }
 
+
+
     public static void PlaySoundToPLayer(Player p, Sound sound) {
         p.playSound(p.getLocation(), sound, 1.0f, 1.0f);
     }
@@ -85,9 +87,11 @@ public class Helpers {
     public static void RunTask(Plugin plugin, Runnable task, int delay) {
         Bukkit.getScheduler().runTaskLater(plugin, task, delay);
     }
-
+    public static void PlayerPositiveSound(Player p) {
+        p.playSound(p.getLocation(), MainConfig.positiveSound, 1.0f, 1.0f);
+    }
     public static void PlayErrorSound(Player p) {
-        p.playSound(p.getLocation(), Sound.ENTITY_HORSE_HURT, 1.0f, 1.0f);
+        p.playSound(p.getLocation(), MainConfig.negativeSound, 1.0f, 1.0f);
     }
 
     public static void RepairAll(Player player) {

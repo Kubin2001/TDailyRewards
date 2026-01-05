@@ -1,0 +1,21 @@
+
+Configuration:
+  # Load language file from Lang folder
+  # Default only En and Pl are created but you can add your own file
+  # For example if you want to support Spanish just copy En
+  # change messages to spanish (Do not modify message names)
+  # Then just change file name to ES
+  UsedLanguage: en
+
+  # 1: Reward will be given to player instantly
+  # 2: GUI will open with all the items, money will still be given instantly
+  RewardType: 1
+
+  # Sound can also be in lower case not only upper but entity.illusioner.hurt will not be accepted you need to put
+  # entity_illusioner_hurt
+  # This sound will be played when player recives reward
+  PositiveSound: 'ENTITY_EXPERIENCE_ORB_PICKUP'
+
+  # This sound is player for example when player needs to wait for time for reward
+  NegativeSound: 'ENTITY_HORSE_HURT'
+

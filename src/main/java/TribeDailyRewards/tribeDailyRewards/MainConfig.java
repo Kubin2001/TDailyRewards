@@ -1,6 +1,7 @@
 package TribeDailyRewards.tribeDailyRewards;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -14,42 +15,46 @@ public class MainConfig {
 
     public static String langName = "";
     public static int rewardType = 1; // 1 normalne odrazu się dostaje 2 dla itemu wyskakuje menu
+    public static Sound positiveSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
+    public static Sound negativeSound = Sound.ENTITY_HORSE_HURT;
 
-    public static void Load(Plugin plugin) throws IOException {
+    private static Sound LoadSound(String name, Plugin p){
+        String strUpper = name.toUpperCase();
+        try{
+            return Sound.valueOf(strUpper);
+        }
+        catch (Exception e){
+            p.getLogger().info("Cannot load sound from config is it missing? Or maybe format is wrong");
+        }
+        return null;
+    }
+
+    public static void Load(Plugin plugin){
         File file = plugin.getDataFolder();
         File configFile = new File(file, "config.yml");
         YamlConfiguration yamlConf = null;
         if (!configFile.exists()) {
-            Bukkit.getLogger().info("[DailyReward] creating mainConfig");
+            Bukkit.getLogger().info("[DailyReward] generating mainConfig");
+            plugin.saveResource("config.yml", false);
+        }
 
-            yamlConf = YamlConfiguration.loadConfiguration(configFile);
-            ConfigurationSection langSec = yamlConf.createSection("Configuration");
+        Bukkit.getLogger().info("[DailyReward] loading mainConfig");
+        yamlConf = YamlConfiguration.loadConfiguration(configFile);
+        ConfigurationSection confSec = yamlConf.getConfigurationSection("Configuration");
+        if(confSec == null){
+            plugin.getLogger().info("Main config does not have its configuration section it cannot be loaded");
+            return;
+        }
+        langName = confSec.getString("UsedLanguage", "en");
+        rewardType = confSec.getInt("RewardType", 1);
 
-            langSec.set("UsedLanguage", "en");
-
-            langSec.set("RewardType", 1);
-
-            List<String> comments = new ArrayList<String>();
-            comments.add("UsedLanguage load language file from Lang folder on default only En and Pl are created but you can add your own file");
-            comments.add("For example if tou want to support Spanish just copy En change messages to spanish " +
-                    "(No not modify message names)");
-            comments.add("Then just change file name to ES");
-            comments.add("");
-
-            comments.add("Reward Type");
-            comments.add("1: Reward will be given to player with instantly");
-            comments.add("2: GUI will open with all the items money will still be given instantly");
-            yamlConf.setComments("Configuration", comments);
-
-            yamlConf.save(configFile);
-            langName = langSec.getString("UsedLanguage", "en");
-            rewardType = langSec.getInt("RewardType", 1);
-        } else {
-            Bukkit.getLogger().info("[DailyReward] loading mainConfig");
-            yamlConf = YamlConfiguration.loadConfiguration(configFile);
-            ConfigurationSection langSec = yamlConf.getConfigurationSection("Configuration");
-            langName = langSec.getString("UsedLanguage", "en");
-            rewardType = langSec.getInt("RewardType", 1);
+        positiveSound = LoadSound(confSec.getString("PositiveSound","---"),plugin);
+        if(positiveSound == null){
+            positiveSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
+        }
+        negativeSound = LoadSound(confSec.getString("NegativeSound","---"),plugin);
+        if(negativeSound== null){
+            negativeSound = Sound.ENTITY_HORSE_HURT;
         }
     }
 }

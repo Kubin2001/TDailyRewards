@@ -17,6 +17,9 @@ public class MainConfig {
     public static int rewardType = 1; // 1 normalne odrazu się dostaje 2 dla itemu wyskakuje menu
     public static Sound positiveSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
     public static Sound negativeSound = Sound.ENTITY_HORSE_HURT;
+    public static int timeOutHours = 25;
+    public static int resetType = 1;
+    public static int resetDaysRemove = 1;
 
     private static Sound LoadSound(String name, Plugin p){
         String strUpper = name.toUpperCase();
@@ -55,6 +58,22 @@ public class MainConfig {
         negativeSound = LoadSound(confSec.getString("NegativeSound","---"),plugin);
         if(negativeSound== null){
             negativeSound = Sound.ENTITY_HORSE_HURT;
+        }
+        timeOutHours = confSec.getInt("TimeOutHours",25);
+        if(timeOutHours > 1_000_000){
+            timeOutHours = 1_000_000;
+        }
+        if(timeOutHours < 1){
+            timeOutHours = 1;
+        }
+        resetType = confSec.getInt("ResetType",1);
+
+        resetDaysRemove = confSec.getInt("ResetDaysRemove",1);
+        if(resetDaysRemove < 1){
+            resetDaysRemove = 1;
+        }
+        if(resetDaysRemove > 1000){
+            resetDaysRemove = 1000;
         }
     }
 }

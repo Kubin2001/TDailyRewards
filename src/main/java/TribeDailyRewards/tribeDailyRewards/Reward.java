@@ -41,9 +41,15 @@ public class Reward implements CommandExecutor {
         }
         Duration timeAfter = Duration.between(rewardTimer, LocalDateTime.now());
         int rewardDays = Helpers.GetPlayerRewardLevel(uuid);
-        if(timeAfter.toHours() > 25){ // If player claimed last reward more than 25 hours ago reset reward days to 1
+        if(timeAfter.toHours() > MainConfig.timeOutHours){ // If player claimed last reward more than 25 hours ago reset reward days to 1
             Helpers.SendFormated(p,Lang.GetTrans("RewardTimedOut"));
-            rewardDays = 1;
+            if(MainConfig.resetType == 1){
+                rewardDays = 1;
+            }
+            else {
+                rewardDays = Math.max(1,rewardDays - MainConfig.resetDaysRemove);
+            }
+
         }
 
         if (ItemParser.loadedItems.containsKey(rewardDays)) {

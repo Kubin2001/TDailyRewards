@@ -13,9 +13,22 @@ Configuration:
 
   # Sound can also be in lower case not only upper but entity.illusioner.hurt will not be accepted you need to put
   # entity_illusioner_hurt
-  # This sound will be played when player recives reward
+  # This sound will be played when player receives reward
   PositiveSound: 'ENTITY_EXPERIENCE_ORB_PICKUP'
 
   # This sound is player for example when player needs to wait for time for reward
   NegativeSound: 'ENTITY_HORSE_HURT'
+
+  # Number of hours after reward will time out for example with 25 player has 1 day and 1 hour
+  # to get reward when it is available max is 1'000'000 and min is 1
+  TimeOutHours: 25
+
+  # This decides what happens when player reward reached time out
+  # 1 Resets to day 1 (To the first reward)
+  # 2 Removes amount of days that can be set up in the setting below
+  ResetType: 1
+
+  # How much days will be removed from player reward if reset type is set to 2
+  # Min value is 1 max value is 1000
+  ResetDaysRemove: 1
 

@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -97,7 +98,12 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
 
             if (sender instanceof Player p) {
                 p.sendMessage(Lang.GetTrans("LevelInfo") + Helpers.GetPlayerRewardLevel(target.getUniqueId().toString()));
-                p.sendMessage(Lang.GetTrans("TimeInfo") + Helpers.GetPlayerRewardTimer(target.getUniqueId().toString()));
+                Duration remain = Duration.between(LocalDateTime.now(), Helpers.GetPlayerRewardTimer(target.getUniqueId().toString()));
+                long totalMinutes = remain.toMinutes();
+                long days = totalMinutes / (24 * 60);
+                long hours = (totalMinutes % (24 * 60)) / 60;
+                long minutes = totalMinutes % 60;
+                Helpers.SendFormated(p, Lang.GetTrans("WaitTimeInfo") + days + "d " + hours + "h " + minutes + "m");
             }
 
             return true;

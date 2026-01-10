@@ -24,6 +24,11 @@ commands:
     description: Show info panel about player reward stats
     permission: tDailyRewards.admin
 
+  moveReward:
+    usage: /<command> <player>
+    description: Move player reward time by x hours
+    permission: tDailyRewards.admin
+
   restart:
     usage: /<command>
     description: Restarts main config

@@ -108,6 +108,44 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
 
             return true;
         }
+        else if (command.getName().equalsIgnoreCase("moveReward")) {
+            if (args.length != 2) {
+                sender.sendMessage(Helpers.CFormat(Lang.GetTrans("WrongArgs2")));
+                return true;
+            }
+            String targetName = args[0];
+
+            Player target = Bukkit.getPlayer(targetName);
+
+            int value = 0;
+            try {
+                value = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                sender.sendMessage(Helpers.CFormat(Lang.GetTrans("TextToNum")));
+                return true;
+            }
+
+            if (target == null) {
+                sender.sendMessage(Helpers.CFormat(Lang.GetTrans("NotOnline") + targetName));
+                return true;
+            }
+
+            if (sender instanceof Player p) {
+                LocalDateTime rewardDate = Helpers.GetPlayerRewardTimer(target.getUniqueId().toString());
+                rewardDate = rewardDate.minusHours(value);
+                Helpers.SetPlayerRewardTimer(target.getUniqueId().toString(), rewardDate);
+
+                int year = rewardDate.getYear();
+                int month = rewardDate.getMonthValue();
+                int days = rewardDate.getDayOfMonth();
+                int hour = rewardDate.getHour();
+
+                Helpers.SendFormated(p, Lang.GetTrans("RewardDateMoved"));
+                Helpers.SendFormated(p, year + "y " + month + "m " + days + "d " + hour + "h ");
+            }
+
+            return true;
+        }
         return false;
     }
 
@@ -117,6 +155,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             case "setRewardLevel":
             case "resetRewardTimer":
             case "rewardInfo":
+            case "moveReward":
                 return GetPlayerNames(args);
             default:
                 return Collections.emptyList();

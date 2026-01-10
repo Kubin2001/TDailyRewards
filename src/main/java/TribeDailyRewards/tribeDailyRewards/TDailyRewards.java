@@ -56,6 +56,9 @@ public final class TDailyRewards extends JavaPlugin {
         getCommand("rewardInfo").setExecutor(handler);
         getCommand("rewardInfo").setTabCompleter(handler);
 
+        getCommand("moveReward").setExecutor(handler);
+        getCommand("moveReward").setTabCompleter(handler);
+
 
         if (dataFile.exists()) {
             try {

@@ -60,6 +60,7 @@ public class Lang {
         mainSec.set("ItemsRestarted", "&7Items Config Restarted");
         mainSec.set("RewardGUI", "&2Reward Menu");
         mainSec.set("RewardTimedOut", "&4Your streak has been broken!");
+        mainSec.set("RewardDateMoved", "Player reward date has been moved by the set amount of hours");
         yamlLocale.save(engLocale);
     }
 
@@ -90,6 +91,7 @@ public class Lang {
         mainSec.set("ItemsRestarted", "&7Konfiguracja itemów zrestartowana");
         mainSec.set("RewardGUI", "&2Menu Nagrody");
         mainSec.set("RewardTimedOut", "&4Seria przerwana!");
+        mainSec.set("RewardDateMoved", "Data nagrody została przesunięta o podaną ilośc godzin");
         yamlLocale.save(engLocale);
     }
 

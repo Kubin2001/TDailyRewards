@@ -1,10 +1,10 @@
 <div align="center">
 
-# 🌟 TDailyRewards v1.13
+# 🌟 TDailyRewards v1.14
 
 **Highly customizable daily reward plugin for Minecraft Java Edition.**
 
-![Version](https://img.shields.io/badge/version-1.1.3-blue)
+![Version](https://img.shields.io/badge/version-1.1.4-blue)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 
 </div>
@@ -34,12 +34,13 @@
 
 ### 🛡️ For Admins
 
-| Command                                     | Description                                                            | Permission                   |
-|:--------------------------------------------|:-----------------------------------------------------------------------|:-----------------------------|
-| `/restart`                                  | Reloads main config.                                                   | `tDailyRewards.restart`      |
-| `/restartItems`                             | Reload item config.                                                    | `tDailyRewards.restartItems` |
-| `/setRewardLevel <player> <val>`            | Sets the specific daily reward day for a player.                       | `tDailyRewards.admin`        |
-| `/resetRewardTimer <player>`                | Resets the timer so the player can claim the reward again immediately. | `tDailyRewards.admin`        |
-| `/rewardInfo <player>`                      | Displays the player's current level and time until the next reward.    | `tDailyRewards.admin`        |
+| Command                          | Description                                                            | Permission                   |
+|:---------------------------------|:-----------------------------------------------------------------------|:-----------------------------|
+| `/restart`                       | Reloads main config.                                                   | `tDailyRewards.restart`      |
+| `/restartItems`                  | Reload item config.                                                    | `tDailyRewards.restartItems` |
+| `/setRewardLevel <player> <val>` | Sets the specific daily reward day for a player.                       | `tDailyRewards.admin`        |
+| `/resetRewardTimer <player>`     | Resets the timer so the player can claim the reward again immediately. | `tDailyRewards.admin`        |
+| `/rewardInfo <player>`           | Displays the player's current level and time until the next reward.    | `tDailyRewards.admin`        |
+| `/moveReward <player> <val>`     | Moves next player reward by amount of hours in val.                    | `tDailyRewards.admin`        |
 
 ---

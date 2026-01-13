@@ -151,7 +151,7 @@ public class Reward implements CommandExecutor {
         }
 
         Helpers.PlayerPositiveSound(p);
-        Helpers.SetPlayerRewardTimer(uuid, LocalDateTime.now().plusDays(1));
+        Helpers.SetPlayerRewardTimer(uuid, LocalDateTime.now().plusHours (MainConfig.rewardHoursTime));
         Helpers.SetPlayerRewardLevel(uuid, rewardDays + 1);
     }
 }

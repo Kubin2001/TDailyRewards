@@ -20,6 +20,7 @@ public class MainConfig {
     public static int timeOutHours = 25;
     public static int resetType = 1;
     public static int resetDaysRemove = 1;
+    public static int rewardHoursTime = 24;
 
     private static Sound LoadSound(String name, Plugin p){
         String strUpper = name.toUpperCase();
@@ -74,6 +75,14 @@ public class MainConfig {
         }
         if(resetDaysRemove > 1000){
             resetDaysRemove = 1000;
+        }
+
+        rewardHoursTime = confSec.getInt ("RewardHoursTime",24);
+        if(rewardHoursTime < 0){
+            rewardHoursTime = 0;
+        }
+        if(rewardHoursTime > 1_000_000){
+            rewardHoursTime = 1_000_000;
         }
     }
 }

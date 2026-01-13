@@ -32,3 +32,8 @@ Configuration:
   # Min value is 1 max value is 1000
   ResetDaysRemove: 1
 
+  # After how many hours next reward can be taken (Base is 24 so it is just one full day)
+  # The lowest possible is 0 so the next reward can be attained instantly (Heavily not recommended)
+  # The highest one is 1'000'000
+  RewardHoursTime: 24
+

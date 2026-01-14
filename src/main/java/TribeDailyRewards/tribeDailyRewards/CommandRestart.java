@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.IOException;
+import java.time.Duration;
 
 public class CommandRestart implements CommandExecutor {
     private Plugin pl = null;
@@ -19,16 +20,21 @@ public class CommandRestart implements CommandExecutor {
         if (!pl.getDataFolder().exists()) {
             pl.getDataFolder().mkdirs();
         }
+        long timeStart = System.nanoTime ();
         try {
             MainConfig.Load(pl);
             Lang.LoadLang(pl, MainConfig.langName + ".yml");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        long timeEnd = System.nanoTime ();
+        long lDurationSec = timeEnd - timeStart;
+
+        double durationSec = lDurationSec / 1_000_000.0;
         if (sender instanceof Player p) {
-            Helpers.SendFormated(p, Lang.GetTrans("Restarted"));
+            Helpers.SendFormated(p, Lang.GetTrans("Restarted") + " time: " + durationSec + " ms");
         } else {
-            pl.getLogger().info(Lang.GetTrans("Restarted"));
+            pl.getLogger().info(Lang.GetTrans("Restarted") + " time: " + durationSec + " ms");
         }
         return true;
     }

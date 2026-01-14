@@ -17,12 +17,18 @@ public class CommandRestartItems implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        long timeStart = System.nanoTime ();
         ItemParser.Clear();
         ItemParser.Init(pl);
+
+        long timeEnd = System.nanoTime ();
+        long lDurationSec = timeEnd - timeStart;
+
+        double durationSec = lDurationSec / 1_000_000.0;
         if (sender instanceof Player p) {
-            Helpers.SendFormated(p, Lang.GetTrans("ItemsRestarted"));
+            Helpers.SendFormated(p, Lang.GetTrans("ItemsRestarted") + " time: " + durationSec + " ms");
         } else {
-            pl.getLogger().info(Lang.GetTrans("ItemsRestarted"));
+            pl.getLogger().info(Lang.GetTrans("ItemsRestarted") + " time: " + durationSec + " ms");
         }
         return true;
     }

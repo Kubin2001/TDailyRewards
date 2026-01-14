@@ -61,6 +61,7 @@ public class Reward implements CommandExecutor {
     }
 
     public void ParseTypeInstant(ArrayList<LoadedItem> possibleItems, Player p, int rewardDays) {
+        Helpers.SendFormated(p, Lang.GetTrans("RewardGetInfo") + rewardDays);
         for (LoadedItem lItem : possibleItems) {
             ItemStack item = lItem.ToItem(rewardDays);
             if (item != null) {
@@ -74,7 +75,6 @@ public class Reward implements CommandExecutor {
                 if (lItem.cutomMassage != null) {
                     Helpers.SendFormated(p, lItem.cutomMassage);
                 } else {
-                    Helpers.SendFormated(p, Lang.GetTrans("RewardGetInfo") + rewardDays);
                     Helpers.SendFormated(p, Lang.GetTrans("RewardItemInfo") +
                             lItem.amount + " " + Helpers.GetItemName(lItem.material));
                 }
@@ -91,6 +91,7 @@ public class Reward implements CommandExecutor {
     }
 
     public void ParseTypeUI(ArrayList<LoadedItem> possibleItems, Player p, int rewardDays) {
+        Helpers.SendFormated(p, Lang.GetTrans("RewardGetInfo") + rewardDays);
         int slot = Math.max(0,13 - possibleItems.size()/2) ;
         int money = 0;
         Inventory rewardGui = Bukkit.createInventory(null, 27,

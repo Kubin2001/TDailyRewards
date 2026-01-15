@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoadedItem {
     public Material material;
@@ -14,17 +15,32 @@ public class LoadedItem {
     public int money = 0;
     public int scalingStart = -1;
     public String cutomMassage = null;
+    public String lore = null;
     public int joinID;
 
-    public LoadedItem(Material material, String customName, int amount, ArrayList<FullEnchant> enchants, int money,
-                      int scalingStart, int joinID) {
+    public LoadedItem(Material material, String customName, String lore, int amount,
+                      ArrayList<FullEnchant> enchants, int money, int scalingStart, int joinID) {
         this.material = material;
         this.customName = customName;
+        this.lore = lore;
         this.amount = amount;
         this.enchants = enchants;
         this.money = money;
         this.scalingStart = scalingStart;
         this.joinID = joinID;
+    }
+
+    public List<String> splitLore(String lore, int lineLength) {
+        List<String> lines = new ArrayList<>();
+        if (lore == null || lore.isEmpty()) return lines;
+
+        int start = 0;
+        while (start < lore.length()) {
+            int end = Math.min(start + lineLength, lore.length());
+            lines.add(lore.substring(start, end));
+            start = end;
+        }
+        return lines;
     }
 
     @Override
@@ -60,6 +76,9 @@ public class LoadedItem {
         ItemMeta meta = item.getItemMeta();
         if (customName != null && !customName.isEmpty()) {
             meta.setDisplayName(Helpers.CFormat(customName));
+        }
+        if(lore != null){
+            meta.setLore (splitLore (lore,30));
         }
         if (enchants != null) {
             for (FullEnchant ench : enchants) {

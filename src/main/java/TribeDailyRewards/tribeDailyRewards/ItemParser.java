@@ -51,6 +51,8 @@ public class ItemParser {
             comments.add("Represent how many items you will get base is 1");
             comments.add("Custom Name");
             comments.add("Represents if item has custom name supports color coding like &6, &9, &2&l");
+            comments.add("Lore");
+            comments.add("Additional item info optional");
             comments.add("Enchants");
             comments.add("Allows for defining a list of enchantments supports overriding vanilla values");
             comments.add("Money");
@@ -72,6 +74,7 @@ public class ItemParser {
             comments.add("  Name: DIAMOND");
             comments.add("  Amount: 4");
             comments.add("  CustomName: '&2&lReward Diamond'");
+            comments.add("  Lore: 'Some custom lore'");
             comments.add("  Enchants:");
             comments.add("      sharpness: 5");
             comments.add("      unbreaking: 3");
@@ -251,6 +254,7 @@ public class ItemParser {
                 loadedItems.put(day, new ArrayList<>());
             }
             String customName = confItem.getString("CustomName", null);
+            String lore = confItem.getString ("Lore",null);
 
             ConfigurationSection enchSection = confItem.getConfigurationSection("Enchants");
             ArrayList<FullEnchant> enchants = new ArrayList<>();
@@ -264,11 +268,10 @@ public class ItemParser {
                         continue;
                     }
                     enchants.add(new FullEnchant(enchantment, level));
-                    ;
                 }
             }
             int money = confItem.getInt("Money", 0);
-            loadedItems.get(day).add(new LoadedItem(material, customName, amount, enchants, money, scale, joinID));
+            loadedItems.get(day).add(new LoadedItem(material, customName, lore, amount, enchants, money, scale, joinID));
             LoadedItem item = loadedItems.get(day).getLast();
             item.cutomMassage = confItem.getString("CustomMessage", null);
         }

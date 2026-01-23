@@ -61,6 +61,11 @@ public class Lang {
         mainSec.set("RewardGUI", "&2Reward Menu");
         mainSec.set("RewardTimedOut", "&4Your streak has been broken!");
         mainSec.set("RewardDateMoved", "Player reward date has been moved by the set amount of hours");
+        mainSec.set("Minute", "m ");
+        mainSec.set("Hour", "h ");
+        mainSec.set("Day", "d ");
+        mainSec.set("Month", "M ");
+        mainSec.set("Year", "y ");
         yamlLocale.save(engLocale);
     }
 
@@ -91,7 +96,12 @@ public class Lang {
         mainSec.set("ItemsRestarted", "&7Konfiguracja itemów zrestartowana");
         mainSec.set("RewardGUI", "&2Menu Nagrody");
         mainSec.set("RewardTimedOut", "&4Seria przerwana!");
-        mainSec.set("RewardDateMoved", "Data nagrody została przesunięta o podaną ilośc godzin");
+        mainSec.set("RewardDateMoved", "Data nagrody została przesunięta o podaną ilość godzin");
+        mainSec.set("Minute", "m ");
+        mainSec.set("Hour", "g ");
+        mainSec.set("Day", "d ");
+        mainSec.set("Month", "M ");
+        mainSec.set("Year", "r ");
         yamlLocale.save(engLocale);
     }
 

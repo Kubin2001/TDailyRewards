@@ -103,7 +103,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 long days = totalMinutes / (24 * 60);
                 long hours = (totalMinutes % (24 * 60)) / 60;
                 long minutes = totalMinutes % 60;
-                Helpers.SendFormated(p, Lang.GetTrans("WaitTimeInfo") + days + "d " + hours + "h " + minutes + "m");
+                Helpers.SendFormated(p, Lang.GetTrans("WaitTimeInfo") + days + Lang.GetTrans("Day")
+                                        + hours + Lang.GetTrans("Hour")+ minutes + Lang.GetTrans("Minute"));
             }
 
             return true;
@@ -141,7 +142,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 int hour = rewardDate.getHour();
 
                 Helpers.SendFormated(p, Lang.GetTrans("RewardDateMoved"));
-                Helpers.SendFormated(p, year + "y " + month + "m " + days + "d " + hour + "h ");
+                Helpers.SendFormated(p, year + Lang.GetTrans("Year") + month + Lang.GetTrans("Month")
+                                        + days + Lang.GetTrans("Day")+ hour + Lang.GetTrans("Hour"));
             }
 
             return true;

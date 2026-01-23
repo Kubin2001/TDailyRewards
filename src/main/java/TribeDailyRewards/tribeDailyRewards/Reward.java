@@ -35,7 +35,8 @@ public class Reward implements CommandExecutor {
             long days = totalMinutes / (24 * 60);
             long hours = (totalMinutes % (24 * 60)) / 60;
             long minutes = totalMinutes % 60;
-            Helpers.SendFormated(p, Lang.GetTrans("WaitTime") + days + "d " + hours + "h " + minutes + "m");
+            Helpers.SendFormated(p, Lang.GetTrans("WaitTime") + days + Lang.GetTrans("Day")
+                                    + hours + Lang.GetTrans("Hour")+ minutes + Lang.GetTrans("Minute"));
             Helpers.PlayErrorSound(p);
             return true;
         }

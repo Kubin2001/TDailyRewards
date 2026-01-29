@@ -37,3 +37,9 @@ Configuration:
   # The highest one is 1'000'000
   RewardHoursTime: 24
 
+  # If set to 1 old data will be removed if player has not joined the server in amount of days set in purge days
+  PurgeData: 0
+
+  # After how many days data will be purged does nothing if purge data is set to 0
+  PurgeDays: 30
+

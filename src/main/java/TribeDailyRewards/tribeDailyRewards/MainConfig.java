@@ -21,6 +21,8 @@ public class MainConfig {
     public static int resetType = 1;
     public static int resetDaysRemove = 1;
     public static int rewardHoursTime = 24;
+    public static int purgeData = 0;
+    public static int purgeDays = 30;
 
     private static Sound LoadSound(String name, Plugin p){
         String strUpper = name.toUpperCase();
@@ -84,5 +86,11 @@ public class MainConfig {
         if(rewardHoursTime > 1_000_000){
             rewardHoursTime = 1_000_000;
         }
+
+        purgeData = confSec.getInt("PurgeData",0);
+
+        purgeDays = confSec.getInt("PurgeDays",30);
+
+
     }
 }

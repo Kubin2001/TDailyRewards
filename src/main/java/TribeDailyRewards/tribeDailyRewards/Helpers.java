@@ -17,9 +17,10 @@ import java.util.*;
 
 public class Helpers {
     private static Random rand = null;
-    private static Map<String, Integer> data = null;
-    private static Map<String, LocalDateTime> dates = null;
     private static Economy eco = null;
+
+    public static Map<String, Integer> data = null;
+    public static Map<String, LocalDateTime> dates = null;
 
     public static void Init(Map<String, Integer> dataMap, Map<String, LocalDateTime> datesMap, Economy ecoP) {
         data = dataMap;

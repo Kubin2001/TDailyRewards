@@ -113,6 +113,7 @@ public final class TDailyRewards extends JavaPlugin {
             }
         }
         SetupEconomy();
+        DataPurger.PurgeOldData(this);
     }
 
     @Override

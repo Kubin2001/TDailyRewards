@@ -8,12 +8,21 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Reward implements CommandExecutor {
+
+    private Plugin plugin = null;
+
+    public  Reward(Plugin plugin){
+        this.plugin = plugin;
+    }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player p)) {
@@ -117,6 +126,62 @@ public class Reward implements CommandExecutor {
         p.openInventory(rewardGui);
     }
 
+    public void ParseTypeShuffle(ArrayList<LoadedItem> possibleItems, Player p, int rewardDays) {
+        Helpers.SendFormated(p, Lang.GetTrans("RewardGetInfo") + rewardDays);
+        int slot = 13;
+        int money = 0;
+        Inventory rewardGui = Bukkit.createInventory(p, 27, Helpers.CFormat(Lang.GetTrans("ShuffleGUI")));
+        ArrayList<ItemStack> items = new ArrayList<> ();
+
+
+        for (LoadedItem lItem : possibleItems) {
+            ItemStack item = lItem.ToItem (rewardDays);
+
+            if (item != null) {
+                items.add (item);
+            }
+            money += lItem.ToMoney(rewardDays);
+        }
+        if (money != 0) {
+            Helpers.getEco().depositPlayer(p, money);
+            Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
+        }
+        ItemStack finalRouleteItem = items.get (Helpers.GetRandom (0, items.size ()-1));
+        ItemStack firstItem = items.get (Helpers.GetRandom (0, items.size ()-1));
+        rewardGui.setItem (slot, firstItem);
+        p.openInventory(rewardGui);
+
+        new BukkitRunnable (){
+            int counter = 0;
+            final int iter = 10;
+
+            @Override
+            public void run(){
+                if (p.getOpenInventory().getTopInventory() == null ||
+                    !p.getOpenInventory().getTitle().equals(Helpers.CFormat(Lang.GetTrans("ShuffleGUI")))) {
+                    this.cancel();
+                    return;
+                }
+                counter++;
+                if(counter < iter){
+                    rewardGui.setItem (slot, items.get (Helpers.GetRandom (0, items.size ()-1)));
+                    Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+                }
+                else{
+                    rewardGui.clear ();
+                    p.closeInventory ();
+                    Inventory rewardGui2 = Bukkit.createInventory(p, 27,
+                                                                 Helpers.CFormat(Lang.GetTrans("RewardGUI")));
+                    rewardGui2.setItem (slot, finalRouleteItem);
+                    p.openInventory (rewardGui2);
+                    Helpers.PlaySoundToPLayer (p,Sound.ENTITY_PLAYER_LEVELUP);
+                    this.cancel();
+                }
+            }
+
+        }.runTaskTimer (plugin,0 , 10);  // Time is in ticks 1 sec = 20 ticks
+    }
+
     public void ParseReward(Player p, String uuid, int rewardDays, boolean finalScalling) {
         ArrayList<LoadedItem> possibleItems = null;
         if (finalScalling) {
@@ -146,10 +211,16 @@ public class Reward implements CommandExecutor {
             allLItems.add(lItem);
             allItems.add(lItem.ToItem(rewardDays));
         }
-        if (MainConfig.rewardType == 1) {
-            ParseTypeInstant(allLItems, p, rewardDays);
-        } else {
-            ParseTypeUI(allLItems, p, rewardDays);
+        switch (MainConfig.rewardType){
+            case 1:
+                ParseTypeInstant(allLItems, p, rewardDays);
+                break;
+            case 2:
+                ParseTypeUI(allLItems, p, rewardDays);
+                break;
+            case 3:
+                ParseTypeShuffle (allLItems, p ,rewardDays);
+                break;
         }
 
         Helpers.PlayerPositiveSound(p);

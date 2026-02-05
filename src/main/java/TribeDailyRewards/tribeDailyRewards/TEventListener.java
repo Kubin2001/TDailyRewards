@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
@@ -49,7 +50,8 @@ public class TEventListener implements Listener {
         Player p = (Player) event.getPlayer();
         InventoryView view = event.getView();
 
-        if (view.getTitle().equals(Helpers.CFormat(Lang.GetTrans("RewardGUI")))) {
+        if (view.getTitle().equals(Helpers.CFormat(Lang.GetTrans("RewardGUI"))) ||
+            view.getTitle().equals(Helpers.CFormat(Lang.GetTrans("ShuffleGUI")))) {
             Inventory inv = view.getTopInventory();
 
             for (int i = 0; i < inv.getSize(); i++) {
@@ -61,4 +63,13 @@ public class TEventListener implements Listener {
             inv.clear();
         }
     }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event){
+        if(event.getView().getTitle().equals(Helpers.CFormat(Lang.GetTrans("ShuffleGUI")))) {
+            event.setCancelled (true);
+        }
+    }
 }
+
+

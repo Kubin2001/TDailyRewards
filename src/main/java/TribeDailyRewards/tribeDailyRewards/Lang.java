@@ -60,6 +60,7 @@ public class Lang {
         mainSec.set("ItemsRestarted", "&7Items Config Restarted");
         mainSec.set("RewardGUI", "&2Reward Menu");
         mainSec.set("ShuffleGUI", "&2Shuffling Reward");
+        mainSec.set("SlideGUI", "&2Mixing Reward");
         mainSec.set("RewardTimedOut", "&4Your streak has been broken!");
         mainSec.set("RewardDateMoved", "Player reward date has been moved by the set amount of hours");
         mainSec.set("Minute", "m ");
@@ -97,6 +98,7 @@ public class Lang {
         mainSec.set("ItemsRestarted", "&7Konfiguracja itemów zrestartowana");
         mainSec.set("RewardGUI", "&2Menu Nagrody");
         mainSec.set("ShuffleGUI", "&2Losowanie Nagrody");
+        mainSec.set("SlideGUI", "&2Wybieranie Nagrody");
         mainSec.set("RewardTimedOut", "&4Seria przerwana!");
         mainSec.set("RewardDateMoved", "Data nagrody została przesunięta o podaną ilość godzin");
         mainSec.set("Minute", "m ");

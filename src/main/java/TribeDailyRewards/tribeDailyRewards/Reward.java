@@ -182,6 +182,68 @@ public class Reward implements CommandExecutor {
         }.runTaskTimer (plugin,0 , 10);  // Time is in ticks 1 sec = 20 ticks
     }
 
+    public void ParseTypeSlide(ArrayList<LoadedItem> possibleItems, Player p, int rewardDays) {
+        Helpers.SendFormated(p, Lang.GetTrans("RewardGetInfo") + rewardDays);
+        int slot = 13;
+        int money = 0;
+        String invName = Helpers.CFormat(Lang.GetTrans("SlideGUI"));
+        Inventory rewardGui = Bukkit.createInventory(p, 27, invName);
+        ArrayList<ItemStack> items = new ArrayList<> ();
+
+
+        for (LoadedItem lItem : possibleItems) {
+            ItemStack item = lItem.ToItem (rewardDays);
+
+            if (item != null) {
+                items.add (item);
+            }
+            money += lItem.ToMoney(rewardDays);
+        }
+        if (money != 0) {
+            Helpers.getEco().depositPlayer(p, money);
+            Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
+        }
+        int lastIndex = items.size()-1;
+        // Filling central row
+        for(int i = 9; i <= 17; i++){
+            rewardGui.setItem (i, items.get(Helpers.GetRandom (0, lastIndex)));
+        }
+        p.openInventory(rewardGui);
+
+        new BukkitRunnable (){
+            int counter = 0;
+            final int iter = 10;
+
+            @Override
+            public void run(){
+                if (p.getOpenInventory().getTopInventory() == null || !p.getOpenInventory().getTitle().equals(invName)) {
+                    this.cancel();
+                    return;
+                }
+                counter++;
+                if(counter < iter){
+                    for(int i = 9; i <= 16; i++){
+                        rewardGui.setItem(i,rewardGui.getItem(i+1));
+                    }
+                    rewardGui.setItem (17, items.get(Helpers.GetRandom (0, lastIndex)));
+                    Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+                }
+                else{
+                    ItemStack finalItem = rewardGui.getItem(slot);
+                    rewardGui.clear ();
+                    p.closeInventory ();
+                    Inventory rewardGui2 = Bukkit.createInventory(p, 27,
+                            Helpers.CFormat(Lang.GetTrans("RewardGUI")));
+                    rewardGui2.setItem (slot, finalItem);
+                    p.openInventory (rewardGui2);
+                    Helpers.PlaySoundToPLayer (p,Sound.ENTITY_PLAYER_LEVELUP);
+                    this.cancel();
+                }
+            }
+
+        }.runTaskTimer (plugin,0 , 10);  // Time is in ticks 1 sec = 20 ticks
+    }
+
     public void ParseReward(Player p, String uuid, int rewardDays, boolean finalScalling) {
         ArrayList<LoadedItem> possibleItems = null;
         if (finalScalling) {
@@ -219,7 +281,10 @@ public class Reward implements CommandExecutor {
                 ParseTypeUI(allLItems, p, rewardDays);
                 break;
             case 3:
-                ParseTypeShuffle (allLItems, p ,rewardDays);
+                ParseTypeShuffle(allLItems, p ,rewardDays);
+                break;
+            case 4:
+                ParseTypeSlide(allLItems, p ,rewardDays);
                 break;
         }
 

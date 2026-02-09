@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'TribeDailyRewards'
-version = '1.2.0'
+version = '1.2.1'
 
 repositories {
     mavenCentral()
@@ -64,5 +64,5 @@ processResources {
 
 jar {
     archiveBaseName.set("TDailyRewards")
-    archiveVersion.set("1.20")
+    archiveVersion.set("1.21")
 }

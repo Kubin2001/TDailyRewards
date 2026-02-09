@@ -11,6 +11,7 @@ Configuration:
   # 2: GUI will open with all the items, money will still be given instantly
   # 3: GUI Shuffle shows randomized item 10 times then opens second reward type (Only 1 item supported other
   # in the same JoinID will be added to shuffle pool not connected)
+  # 4: GUI will be switching all possible items from right to left sliding them until final item will be at center
   RewardType: 1
 
   # Sound can also be in lower case not only upper but entity.illusioner.hurt will not be accepted you need to put

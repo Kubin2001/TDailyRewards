@@ -62,11 +62,23 @@ public class TEventListener implements Listener {
             }
             inv.clear();
         }
+        else if (view.getTitle().equals(Helpers.CFormat(Lang.GetTrans("SlideGUI")))) {
+            Inventory inv = view.getTopInventory();
+            ItemStack finalItem = inv.getItem(13); // Center Item
+            inv.clear();
+            if(finalItem == null){return;}
+            p.getWorld().dropItemNaturally(p.getLocation(), finalItem);
+            inv.clear();
+        }
+
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event){
         if(event.getView().getTitle().equals(Helpers.CFormat(Lang.GetTrans("ShuffleGUI")))) {
+            event.setCancelled (true);
+        }
+        else if(event.getView().getTitle().equals(Helpers.CFormat(Lang.GetTrans("SlideGUI")))) {
             event.setCancelled (true);
         }
     }

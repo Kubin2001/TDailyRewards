@@ -86,15 +86,6 @@ public class ItemParser {
             yamlData.setComments("Items", comments);
             //CreateItem(3,Material.EMERALD,4,"&6Szmaragd uszaty śmieszny",null,0);
 
-//            CreateItemFull(1,Material.DIAMOND,1,null,null,0,-1,2);
-//            ArrayList<FullEnchant> enchants = new ArrayList<>();
-//            enchants.add(new FullEnchant(Enchantment.EFFICIENCY, 5));
-//            enchants.add(new FullEnchant(Enchantment.UNBREAKING, 3));
-//            enchants.add(new FullEnchant(Enchantment.FORTUNE, 8));
-//            CreateItemFull (1,Material.NETHERITE_SWORD,1,"&2&lShield Shredder",enchants, 200,-1,2);
-//            CreateItemFull(1,Material.DIAMOND,1,null,null,0,-1,2);
-
-
             CreateItem(1, Material.IRON_INGOT, 4);
 
             CreateItem(2, Material.GOLD_INGOT, 4);

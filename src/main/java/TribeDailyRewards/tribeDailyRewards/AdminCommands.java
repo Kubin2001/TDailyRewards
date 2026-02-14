@@ -97,6 +97,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             }
 
             if (sender instanceof Player p) {
+                Helpers.SendFormated(p,"&7---------------------------------------");
+                Helpers.SendFormated(p, targetName);
                 p.sendMessage(Lang.GetTrans("LevelInfo") + Helpers.GetPlayerRewardLevel(target.getUniqueId().toString()));
                 Duration remain = Duration.between(LocalDateTime.now(), Helpers.GetPlayerRewardTimer(target.getUniqueId().toString()));
                 long totalMinutes = remain.toMinutes();
@@ -105,6 +107,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 long minutes = totalMinutes % 60;
                 Helpers.SendFormated(p, Lang.GetTrans("WaitTimeInfo") + days + Lang.GetTrans("Day")
                                         + hours + Lang.GetTrans("Hour")+ minutes + Lang.GetTrans("Minute"));
+                Helpers.SendFormated(p,"&7---------------------------------------");
             }
 
             return true;

@@ -1,6 +1,7 @@
 package TribeDailyRewards.tribeDailyRewards;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -17,9 +18,10 @@ public class LoadedItem {
     public String cutomMassage = null;
     public String lore = null;
     public int joinID;
+    public String command = null;
 
     public LoadedItem(Material material, String customName, String lore, int amount,
-                      ArrayList<FullEnchant> enchants, int money, int scalingStart, int joinID) {
+                      ArrayList<FullEnchant> enchants, int money, int scalingStart, int joinID, String command) {
         this.material = material;
         this.customName = customName;
         this.lore = lore;
@@ -28,6 +30,7 @@ public class LoadedItem {
         this.money = money;
         this.scalingStart = scalingStart;
         this.joinID = joinID;
+        this.command = command;
     }
 
     public List<String> splitLore(String lore, int lineLength) {
@@ -96,5 +99,12 @@ public class LoadedItem {
             return scaledMoney;
         }
         return money;
+    }
+
+    public String GetCommand(Player p){
+        if(command == null){
+            return null;
+        }
+        return command.replace("%player%", p.getName());
     }
 }

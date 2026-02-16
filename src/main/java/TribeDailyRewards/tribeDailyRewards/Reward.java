@@ -88,6 +88,10 @@ public class Reward implements CommandExecutor {
                     Helpers.SendFormated(p, Lang.GetTrans("RewardItemInfo") +
                             lItem.amount + " " + Helpers.GetItemName(lItem.material));
                 }
+                String command = lItem.GetCommand(p);
+                if(command != null){
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
+                }
             }
 
             int money = lItem.ToMoney(rewardDays);
@@ -115,7 +119,10 @@ public class Reward implements CommandExecutor {
             if (item != null) {
                 rewardGui.setItem(slot, item);
             }
-
+            String command = lItem.GetCommand(p);
+            if(command != null){
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
+            }
             money += lItem.ToMoney(rewardDays);
             slot++;
         }
@@ -131,14 +138,14 @@ public class Reward implements CommandExecutor {
         int slot = 13;
         int money = 0;
         Inventory rewardGui = Bukkit.createInventory(p, 27, Helpers.CFormat(Lang.GetTrans("ShuffleGUI")));
-        ArrayList<ItemStack> items = new ArrayList<> ();
+        ArrayList<ItemWithCommand> items = new ArrayList<> ();
 
 
         for (LoadedItem lItem : possibleItems) {
             ItemStack item = lItem.ToItem (rewardDays);
 
             if (item != null) {
-                items.add (item);
+                items.add (new ItemWithCommand(item,lItem.GetCommand(p)));
             }
             money += lItem.ToMoney(rewardDays);
         }
@@ -146,9 +153,9 @@ public class Reward implements CommandExecutor {
             Helpers.getEco().depositPlayer(p, money);
             Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
         }
-        ItemStack finalRouleteItem = items.get (Helpers.GetRandom (0, items.size ()-1));
-        ItemStack firstItem = items.get (Helpers.GetRandom (0, items.size ()-1));
-        rewardGui.setItem (slot, firstItem);
+        ItemWithCommand finalRouletteItem = items.get (Helpers.GetRandom (0, items.size ()-1));
+        ItemWithCommand firstItem = items.get (Helpers.GetRandom (0, items.size ()-1));
+        rewardGui.setItem (slot, firstItem.item);
         p.openInventory(rewardGui);
 
         new BukkitRunnable (){
@@ -164,7 +171,7 @@ public class Reward implements CommandExecutor {
                 }
                 counter++;
                 if(counter < iter){
-                    rewardGui.setItem (slot, items.get (Helpers.GetRandom (0, items.size ()-1)));
+                    rewardGui.setItem (slot, items.get (Helpers.GetRandom (0, items.size ()-1)).item);
                     Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
                 }
                 else{
@@ -172,7 +179,11 @@ public class Reward implements CommandExecutor {
                     p.closeInventory ();
                     Inventory rewardGui2 = Bukkit.createInventory(p, 27,
                                                                  Helpers.CFormat(Lang.GetTrans("RewardGUI")));
-                    rewardGui2.setItem (slot, finalRouleteItem);
+                    String command = finalRouletteItem.command;
+                    if(command != null){
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
+                    }
+                    rewardGui2.setItem (slot, finalRouletteItem.item);
                     p.openInventory (rewardGui2);
                     Helpers.PlaySoundToPLayer (p,Sound.ENTITY_PLAYER_LEVELUP);
                     this.cancel();
@@ -188,14 +199,14 @@ public class Reward implements CommandExecutor {
         int money = 0;
         String invName = Helpers.CFormat(Lang.GetTrans("SlideGUI"));
         Inventory rewardGui = Bukkit.createInventory(p, 27, invName);
-        ArrayList<ItemStack> items = new ArrayList<> ();
+        ArrayList<ItemWithCommand> items = new ArrayList<> ();
 
 
         for (LoadedItem lItem : possibleItems) {
             ItemStack item = lItem.ToItem (rewardDays);
 
             if (item != null) {
-                items.add (item);
+                items.add (new ItemWithCommand(item,lItem.GetCommand(p)));
             }
             money += lItem.ToMoney(rewardDays);
         }
@@ -206,7 +217,7 @@ public class Reward implements CommandExecutor {
         int lastIndex = items.size()-1;
         // Filling central row
         for(int i = 9; i <= 17; i++){
-            rewardGui.setItem (i, items.get(Helpers.GetRandom (0, lastIndex)));
+            rewardGui.setItem (i, items.get(Helpers.GetRandom (0, lastIndex)).item);
         }
         p.openInventory(rewardGui);
 
@@ -225,11 +236,20 @@ public class Reward implements CommandExecutor {
                     for(int i = 9; i <= 16; i++){
                         rewardGui.setItem(i,rewardGui.getItem(i+1));
                     }
-                    rewardGui.setItem (17, items.get(Helpers.GetRandom (0, lastIndex)));
+                    rewardGui.setItem (17, items.get(Helpers.GetRandom (0, lastIndex)).item);
                     Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
                 }
                 else{
                     ItemStack finalItem = rewardGui.getItem(slot);
+                    for(ItemWithCommand cItem : items){
+                        if(finalItem != null && finalItem.isSimilar(cItem.item)){
+                            String command = cItem.command;
+                            if(command != null){
+                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
+                            }
+                            break;
+                        }
+                    }
                     rewardGui.clear ();
                     p.closeInventory ();
                     Inventory rewardGui2 = Bukkit.createInventory(p, 27,

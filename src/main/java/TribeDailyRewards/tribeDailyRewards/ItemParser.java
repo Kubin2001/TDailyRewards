@@ -65,6 +65,8 @@ public class ItemParser {
             comments.add("JoinID");
             comments.add("If join id exist or is not equal to 0 this item will be merged with other " +
                     "items with the same day and same join id");
+            comments.add("Command");
+            comments.add("Executes custom command in console use %player% to insert player name");
             comments.add("-------------------------------------------");
             comments.add("Example item just copy what you need from this one");
             comments.add("SomeItem:");
@@ -81,6 +83,7 @@ public class ItemParser {
             comments.add("      efficiency: 8");
             comments.add("  CustomMessage: '&6&lYou just recived your great reward'");
             comments.add("  JoinID: 1");
+            comments.add("  Command: 'eco give %player% 100'");
             comments.add("-------------------------------------------");
 
             yamlData.setComments("Items", comments);
@@ -240,6 +243,7 @@ public class ItemParser {
             int day = confItem.getInt("Day", 1);
             int joinID = confItem.getInt("JoinID", 0);
             int amount = confItem.getInt("Amount", 1);
+            String command = confItem.getString("Command",null);
             int scale = confItem.getInt("ScalingStart", -1);
             if (!loadedItems.containsKey(day)) {
                 loadedItems.put(day, new ArrayList<>());
@@ -262,7 +266,7 @@ public class ItemParser {
                 }
             }
             int money = confItem.getInt("Money", 0);
-            loadedItems.get(day).add(new LoadedItem(material, customName, lore, amount, enchants, money, scale, joinID));
+            loadedItems.get(day).add(new LoadedItem(material, customName, lore, amount, enchants, money, scale, joinID,command));
             LoadedItem item = loadedItems.get(day).getLast();
             item.cutomMassage = confItem.getString("CustomMessage", null);
         }

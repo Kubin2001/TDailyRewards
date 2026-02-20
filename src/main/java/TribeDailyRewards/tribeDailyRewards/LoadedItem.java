@@ -92,6 +92,11 @@ public class LoadedItem {
         return item;
     }
 
+    public ItemWithCommand ToItemWithCommand(int rewardDay, Player p){
+        String com = GetCommand(p);
+        return new ItemWithCommand(ToItem(rewardDay),com);
+    }
+
     public int ToMoney(int rewardDay) {
         if (scalingStart != -1) {
             int scaledAmount = rewardDay - scalingStart;

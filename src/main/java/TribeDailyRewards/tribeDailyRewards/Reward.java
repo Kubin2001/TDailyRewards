@@ -136,26 +136,28 @@ public class Reward implements CommandExecutor {
     public void ParseTypeShuffle(ArrayList<LoadedItem> possibleItems, Player p, int rewardDays) {
         Helpers.SendFormated(p, Lang.GetTrans("RewardGetInfo") + rewardDays);
         int slot = 13;
-        int money = 0;
         Inventory rewardGui = Bukkit.createInventory(p, 27, Helpers.CFormat(Lang.GetTrans("ShuffleGUI")));
-        ArrayList<ItemWithCommand> items = new ArrayList<> ();
+        ArrayList<LoadedItem> items = new ArrayList<> ();
 
 
         for (LoadedItem lItem : possibleItems) {
             ItemStack item = lItem.ToItem (rewardDays);
 
             if (item != null) {
-                items.add (new ItemWithCommand(item,lItem.GetCommand(p)));
+                items.add (lItem);
             }
-            money += lItem.ToMoney(rewardDays);
         }
+
+        LoadedItem finalLItem = items.get (Helpers.GetRandom (0, items.size ()-1));
+        ItemWithCommand finalRouletteItem = finalLItem.ToItemWithCommand(rewardDays,p);
+        ItemWithCommand firstItem = items.get (Helpers.GetRandom (0, items.size ()-1)).ToItemWithCommand(rewardDays,p);
+        rewardGui.setItem (slot, firstItem.item);
+
+        int money = finalLItem.ToMoney(rewardDays);
         if (money != 0) {
             Helpers.getEco().depositPlayer(p, money);
             Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
         }
-        ItemWithCommand finalRouletteItem = items.get (Helpers.GetRandom (0, items.size ()-1));
-        ItemWithCommand firstItem = items.get (Helpers.GetRandom (0, items.size ()-1));
-        rewardGui.setItem (slot, firstItem.item);
         p.openInventory(rewardGui);
 
         new BukkitRunnable (){
@@ -171,7 +173,7 @@ public class Reward implements CommandExecutor {
                 }
                 counter++;
                 if(counter < iter){
-                    rewardGui.setItem (slot, items.get (Helpers.GetRandom (0, items.size ()-1)).item);
+                    rewardGui.setItem (slot, items.get (Helpers.GetRandom (0, items.size ()-1)).ToItem(rewardDays));
                     Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
                 }
                 else{
@@ -196,28 +198,22 @@ public class Reward implements CommandExecutor {
     public void ParseTypeSlide(ArrayList<LoadedItem> possibleItems, Player p, int rewardDays) {
         Helpers.SendFormated(p, Lang.GetTrans("RewardGetInfo") + rewardDays);
         int slot = 13;
-        int money = 0;
         String invName = Helpers.CFormat(Lang.GetTrans("SlideGUI"));
         Inventory rewardGui = Bukkit.createInventory(p, 27, invName);
-        ArrayList<ItemWithCommand> items = new ArrayList<> ();
+        ArrayList<LoadedItem> items = new ArrayList<> ();
 
 
         for (LoadedItem lItem : possibleItems) {
             ItemStack item = lItem.ToItem (rewardDays);
 
             if (item != null) {
-                items.add (new ItemWithCommand(item,lItem.GetCommand(p)));
+                items.add (lItem);
             }
-            money += lItem.ToMoney(rewardDays);
-        }
-        if (money != 0) {
-            Helpers.getEco().depositPlayer(p, money);
-            Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
         }
         int lastIndex = items.size()-1;
         // Filling central row
         for(int i = 9; i <= 17; i++){
-            rewardGui.setItem (i, items.get(Helpers.GetRandom (0, lastIndex)).item);
+            rewardGui.setItem (i, items.get(Helpers.GetRandom (0, lastIndex)).ToItem(rewardDays));
         }
         p.openInventory(rewardGui);
 
@@ -236,16 +232,21 @@ public class Reward implements CommandExecutor {
                     for(int i = 9; i <= 16; i++){
                         rewardGui.setItem(i,rewardGui.getItem(i+1));
                     }
-                    rewardGui.setItem (17, items.get(Helpers.GetRandom (0, lastIndex)).item);
+                    rewardGui.setItem (17, items.get(Helpers.GetRandom (0, lastIndex)).ToItem(rewardDays));
                     Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
                 }
                 else{
                     ItemStack finalItem = rewardGui.getItem(slot);
-                    for(ItemWithCommand cItem : items){
-                        if(finalItem != null && finalItem.isSimilar(cItem.item)){
+                    for(LoadedItem cItem : items){
+                        if(finalItem != null && finalItem.isSimilar(cItem.ToItem(rewardDays))){
                             String command = cItem.command;
                             if(command != null){
                                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
+                            }
+                            int money = cItem.ToMoney(rewardDays);
+                            if (money != 0) {
+                                Helpers.getEco().depositPlayer(p, money);
+                                Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
                             }
                             break;
                         }

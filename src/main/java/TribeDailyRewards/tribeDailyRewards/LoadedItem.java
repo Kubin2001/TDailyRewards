@@ -1,5 +1,6 @@
 package TribeDailyRewards.tribeDailyRewards;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -111,5 +112,18 @@ public class LoadedItem {
             return null;
         }
         return command.replace("%player%", p.getName());
+    }
+
+    public void ParseEveryting(Player p , int rewardDays){
+        p.getWorld().dropItemNaturally(p.getLocation(), ToItem(rewardDays));
+        String command = GetCommand(p);
+        if(command != null){
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
+        }
+        int money = ToMoney(rewardDays);
+        if (money != 0) {
+            Helpers.getEco().depositPlayer(p, money);
+            Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
+        }
     }
 }

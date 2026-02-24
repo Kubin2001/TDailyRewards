@@ -149,7 +149,7 @@ public class Reward implements CommandExecutor {
         }
 
         LoadedItem finalLItem = items.get (Helpers.GetRandom (0, items.size ()-1));
-        ItemWithCommand finalRouletteItem = finalLItem.ToItemWithCommand(rewardDays,p);
+        QueuedItems.items.put(p.getUniqueId(),finalLItem);
         ItemWithCommand firstItem = items.get (Helpers.GetRandom (0, items.size ()-1)).ToItemWithCommand(rewardDays,p);
         rewardGui.setItem (slot, firstItem.item);
 
@@ -181,11 +181,18 @@ public class Reward implements CommandExecutor {
                     p.closeInventory ();
                     Inventory rewardGui2 = Bukkit.createInventory(p, 27,
                                                                  Helpers.CFormat(Lang.GetTrans("RewardGUI")));
-                    String command = finalRouletteItem.command;
+                    // Yep remove gives destroyed item did not know it
+                    LoadedItem finalItem = QueuedItems.items.remove(p.getUniqueId());
+                    if(finalItem == null){
+                        Bukkit.getLogger().info("WARNING PLAYER ITEM NOT FOUND IN SHUFFLE PLEASE REPORT THIS ERROR ON SPIGOT");
+                        this.cancel();
+                        return;
+                    }
+                    String command = finalItem.GetCommand(p);
                     if(command != null){
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
                     }
-                    rewardGui2.setItem (slot, finalRouletteItem.item);
+                    rewardGui2.setItem (slot, finalItem.ToItem(rewardDays));
                     p.openInventory (rewardGui2);
                     Helpers.PlaySoundToPLayer (p,Sound.ENTITY_PLAYER_LEVELUP);
                     this.cancel();
@@ -211,6 +218,7 @@ public class Reward implements CommandExecutor {
             }
         }
         int lastIndex = items.size()-1;
+        QueuedItems.items.put(p.getUniqueId(),items.get(Helpers.GetRandom (0, lastIndex))); // Final Item
         // Filling central row
         for(int i = 9; i <= 17; i++){
             rewardGui.setItem (i, items.get(Helpers.GetRandom (0, lastIndex)).ToItem(rewardDays));
@@ -228,6 +236,21 @@ public class Reward implements CommandExecutor {
                     return;
                 }
                 counter++;
+                if(counter == 5){
+                    for(int i = 9; i <= 16; i++){
+                        rewardGui.setItem(i,rewardGui.getItem(i+1));
+                    }
+                    LoadedItem item = QueuedItems.items.get(p.getUniqueId());
+                    if(item == null){
+                        Bukkit.getLogger().info("WARNING NO FINAL ITEM IN SLIDE TYPE CANCELED PLEASE " +
+                                "REPORT BUG ON SPIGOT");
+                        this.cancel();
+                        return;
+                    }
+                    rewardGui.setItem (17, item.ToItem(rewardDays));
+                    Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+                    return;
+                }
                 if(counter < iter){
                     for(int i = 9; i <= 16; i++){
                         rewardGui.setItem(i,rewardGui.getItem(i+1));
@@ -236,26 +259,28 @@ public class Reward implements CommandExecutor {
                     Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
                 }
                 else{
-                    ItemStack finalItem = rewardGui.getItem(slot);
-                    for(LoadedItem cItem : items){
-                        if(finalItem != null && finalItem.isSimilar(cItem.ToItem(rewardDays))){
-                            String command = cItem.command;
-                            if(command != null){
-                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
-                            }
-                            int money = cItem.ToMoney(rewardDays);
-                            if (money != 0) {
-                                Helpers.getEco().depositPlayer(p, money);
-                                Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
-                            }
-                            break;
-                        }
+                    LoadedItem finalItem = QueuedItems.items.remove(p.getUniqueId());
+                    if(finalItem == null){
+                        Bukkit.getLogger().info("WARNING NO FINAL ITEM IN SLIDE TYPE CANCELED PLEASE " +
+                                "REPORT BUG ON SPIGOT");
+                        this.cancel();
+                        return;
+                    }
+                    ItemStack item = finalItem.ToItem(rewardDays);
+                    String command = finalItem.GetCommand(p);
+                    if(command != null){
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
+                    }
+                    int money = finalItem.ToMoney(rewardDays);
+                    if (money != 0) {
+                        Helpers.getEco().depositPlayer(p, money);
+                        Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
                     }
                     rewardGui.clear ();
                     p.closeInventory ();
                     Inventory rewardGui2 = Bukkit.createInventory(p, 27,
                             Helpers.CFormat(Lang.GetTrans("RewardGUI")));
-                    rewardGui2.setItem (slot, finalItem);
+                    rewardGui2.setItem (slot, item);
                     p.openInventory (rewardGui2);
                     Helpers.PlaySoundToPLayer (p,Sound.ENTITY_PLAYER_LEVELUP);
                     this.cancel();

@@ -1,5 +1,6 @@
 package TribeDailyRewards.tribeDailyRewards;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -7,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
@@ -41,8 +43,12 @@ public class TEventListener implements Listener {
         } else {
             Helpers.SetPlayerRewardLevel(uuid, 1);
             Helpers.SetPlayerRewardTimer(uuid, LocalDateTime.now());
-            //Helpers.SendFormated (p,"&6DEBUG wygenerowano dane codziennej nagrody");
         }
+    }
+
+    public void onLeave(PlayerQuitEvent event){
+        Player p = event.getPlayer();
+        QueuedItems.items.remove(p.getUniqueId());
     }
 
     @EventHandler
@@ -50,25 +56,40 @@ public class TEventListener implements Listener {
         Player p = (Player) event.getPlayer();
         InventoryView view = event.getView();
 
-        if (view.getTitle().equals(Helpers.CFormat(Lang.GetTrans("RewardGUI"))) ||
-            view.getTitle().equals(Helpers.CFormat(Lang.GetTrans("ShuffleGUI")))) {
+        if (view.getTitle().equals(Helpers.CFormat(Lang.GetTrans("RewardGUI")))) {
             Inventory inv = view.getTopInventory();
 
             for (int i = 0; i < inv.getSize(); i++) {
                 ItemStack item = inv.getItem(i);
 
-                if (item == null || item.getType() == Material.AIR) continue;
+                if (item == null || item.getType() == Material.AIR){
+                    continue;
+                }
                 p.getWorld().dropItemNaturally(p.getLocation(), item);
             }
             inv.clear();
         }
+        else if(view.getTitle().equals(Helpers.CFormat(Lang.GetTrans("ShuffleGUI")))){
+            Inventory inv = view.getTopInventory();
+            inv.clear();
+            LoadedItem item = QueuedItems.items.remove(p.getUniqueId());
+            if(item != null){
+                item.ParseEveryting(p, Helpers.GetPlayerRewardLevel(p.getUniqueId().toString()));
+            }
+            else{
+                Bukkit.getLogger().info("WARING PLAYER HAD NO ITEM WHEN CLOSSING SHUFFLE GUI THIS SHOULD NOT HAPPENDED");
+            }
+        }
         else if (view.getTitle().equals(Helpers.CFormat(Lang.GetTrans("SlideGUI")))) {
             Inventory inv = view.getTopInventory();
-            ItemStack finalItem = inv.getItem(13); // Center Item
             inv.clear();
-            if(finalItem == null){return;}
-            p.getWorld().dropItemNaturally(p.getLocation(), finalItem);
-            inv.clear();
+            LoadedItem item = QueuedItems.items.remove(p.getUniqueId());
+            if(item != null){
+                item.ParseEveryting(p, Helpers.GetPlayerRewardLevel(p.getUniqueId().toString()));
+            }
+            else{
+                Bukkit.getLogger().info("WARING PLAYER HAD NO ITEM WHEN CLOSSING SLIDE GUI THIS SHOULD NOT HAPPENDED");
+            }
         }
 
     }

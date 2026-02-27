@@ -8,13 +8,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Reward implements CommandExecutor {
 
@@ -30,7 +30,7 @@ public class Reward implements CommandExecutor {
             return true;
         }
 
-        String uuid = p.getUniqueId().toString();
+        UUID uuid = p.getUniqueId();
         if (!Helpers.IsPlayerRewardTimer(uuid)) {
             Helpers.SendFormated(p, Lang.GetTrans("MissingTimerP"));
             return true;
@@ -290,7 +290,7 @@ public class Reward implements CommandExecutor {
         }.runTaskTimer (plugin,0 , 10);  // Time is in ticks 1 sec = 20 ticks
     }
 
-    public void ParseReward(Player p, String uuid, int rewardDays, boolean finalScalling) {
+    public void ParseReward(Player p, UUID uuid, int rewardDays, boolean finalScalling) {
         ArrayList<LoadedItem> possibleItems = null;
         if (finalScalling) {
             possibleItems = ItemParser.loadedItems.get(-1);

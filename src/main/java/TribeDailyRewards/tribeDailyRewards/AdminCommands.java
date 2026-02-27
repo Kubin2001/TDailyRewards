@@ -53,7 +53,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 sender.sendMessage(Helpers.CFormat(Lang.GetTrans("NotOnline") + targetName));
                 return true;
             }
-            Helpers.SetPlayerRewardLevel(target.getUniqueId().toString(), value);
+            Helpers.SetPlayerRewardLevel(target.getUniqueId(), value);
             if (sender instanceof Player p) {
                 Helpers.SendFormated(p, Lang.GetTrans("SetTo") + value);
             } else {
@@ -73,7 +73,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 sender.sendMessage(Helpers.CFormat(Lang.GetTrans("NotOnline") + targetName));
                 return true;
             }
-            Helpers.SetPlayerRewardTimer(target.getUniqueId().toString(), LocalDateTime.now());
+            Helpers.SetPlayerRewardTimer(target.getUniqueId(), LocalDateTime.now());
 
             if (sender instanceof Player p) {
                 Helpers.SendFormated(p, Lang.GetTrans("ResetFor"));
@@ -99,8 +99,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             if (sender instanceof Player p) {
                 Helpers.SendFormated(p,"&7---------------------------------------");
                 Helpers.SendFormated(p, targetName);
-                p.sendMessage(Lang.GetTrans("LevelInfo") + Helpers.GetPlayerRewardLevel(target.getUniqueId().toString()));
-                Duration remain = Duration.between(LocalDateTime.now(), Helpers.GetPlayerRewardTimer(target.getUniqueId().toString()));
+                p.sendMessage(Lang.GetTrans("LevelInfo") + Helpers.GetPlayerRewardLevel(target.getUniqueId()));
+                Duration remain = Duration.between(LocalDateTime.now(), Helpers.GetPlayerRewardTimer(target.getUniqueId()));
                 long totalMinutes = remain.toMinutes();
                 long days = totalMinutes / (24 * 60);
                 long hours = (totalMinutes % (24 * 60)) / 60;
@@ -135,9 +135,9 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             }
 
             if (sender instanceof Player p) {
-                LocalDateTime rewardDate = Helpers.GetPlayerRewardTimer(target.getUniqueId().toString());
+                LocalDateTime rewardDate = Helpers.GetPlayerRewardTimer(target.getUniqueId());
                 rewardDate = rewardDate.minusHours(value);
-                Helpers.SetPlayerRewardTimer(target.getUniqueId().toString(), rewardDate);
+                Helpers.SetPlayerRewardTimer(target.getUniqueId(), rewardDate);
 
                 int year = rewardDate.getYear();
                 int month = rewardDate.getMonthValue();

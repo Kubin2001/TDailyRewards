@@ -22,12 +22,12 @@ public class DataPurger {
         long removedData = 0; // I assume that it should be equal for boothMaps
         long removedDates = 0;
 
-        Iterator<Map.Entry<String, Integer>> it = Helpers.data.entrySet().iterator();
+        Iterator<Map.Entry<UUID, Integer>> it = Helpers.data.entrySet().iterator();
 
         while (it.hasNext()) {
-            Map.Entry<String, Integer> entry = it.next();
+            Map.Entry<UUID, Integer> entry = it.next();
 
-            UUID uuid = UUID.fromString(entry.getKey());
+            UUID uuid = entry.getKey();
             OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
 
             long lastPlayed = player.getLastPlayed();
@@ -44,12 +44,12 @@ public class DataPurger {
             }
         }
 
-        Iterator<Map.Entry<String, LocalDateTime>> it2 = Helpers.dates.entrySet().iterator();
+        Iterator<Map.Entry<UUID, LocalDateTime>> it2 = Helpers.dates.entrySet().iterator();
 
         while (it2.hasNext()) {
-            Map.Entry<String, LocalDateTime> entry = it2.next();
+            Map.Entry<UUID, LocalDateTime> entry = it2.next();
 
-            UUID uuid = UUID.fromString(entry.getKey());
+            UUID uuid = entry.getKey();
             OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
 
             long lastPlayed = player.getLastPlayed();

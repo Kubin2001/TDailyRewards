@@ -19,10 +19,10 @@ public class Helpers {
     private static Random rand = null;
     private static Economy eco = null;
 
-    public static Map<String, Integer> data = null;
-    public static Map<String, LocalDateTime> dates = null;
+    public static Map<UUID, Integer> data = null;
+    public static Map<UUID, LocalDateTime> dates = null;
 
-    public static void Init(Map<String, Integer> dataMap, Map<String, LocalDateTime> datesMap, Economy ecoP) {
+    public static void Init(Map<UUID, Integer> dataMap, Map<UUID, LocalDateTime> datesMap, Economy ecoP) {
         data = dataMap;
         dates = datesMap;
         rand = new Random();
@@ -45,38 +45,38 @@ public class Helpers {
         return rand.nextInt((max - min) + 1) + min;
     }
 
-    public static boolean SetPlayerRewardLevel(String uuid, int value) {
-        data.put("RLevel" + uuid, value);
+    public static boolean SetPlayerRewardLevel(UUID uuid, int value) {
+        data.put(uuid, value);
         return true;
     }
 
-    public static int GetPlayerRewardLevel(String uuid) {
-        if (data.containsKey("RLevel" + uuid)) {
-            return data.get("RLevel" + uuid);
+    public static int GetPlayerRewardLevel(UUID uuid) {
+        if (data.containsKey(uuid)) {
+            return data.get(uuid);
         }
         Bukkit.getLogger().info(Lang.GetTrans("MissingRewardLevel"));
         return -1;
     }
 
-    public static boolean IsPlayerRewardLevel(String uuid) {
-        return data.containsKey("RLevel" + uuid);
+    public static boolean IsPlayerRewardLevel(UUID uuid) {
+        return data.containsKey(uuid);
     }
 
-    public static boolean SetPlayerRewardTimer(String uuid, LocalDateTime value) {
-        dates.put("RTime" + uuid, value);
+    public static boolean SetPlayerRewardTimer(UUID uuid, LocalDateTime value) {
+        dates.put(uuid, value);
         return true;
     }
 
-    public static LocalDateTime GetPlayerRewardTimer(String uuid) {
-        if (dates.containsKey("RTime" + uuid)) {
-            return dates.get("RTime" + uuid);
+    public static LocalDateTime GetPlayerRewardTimer(UUID uuid) {
+        if (dates.containsKey(uuid)) {
+            return dates.get(uuid);
         }
         Bukkit.getLogger().info(Lang.GetTrans("MissingRewardTime"));
         return LocalDateTime.now();
     }
 
-    public static boolean IsPlayerRewardTimer(String uuid) {
-        return dates.containsKey("RTime" + uuid);
+    public static boolean IsPlayerRewardTimer(UUID uuid) {
+        return dates.containsKey(uuid);
     }
 
 

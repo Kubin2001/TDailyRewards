@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class TEventListener implements Listener {
     private final Plugin plugin;
@@ -28,7 +29,7 @@ public class TEventListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
-        String uuid = p.getUniqueId().toString();
+        UUID uuid = p.getUniqueId();
         if (Helpers.IsPlayerRewardLevel(uuid)) {
             LocalDateTime dateTime = Helpers.GetPlayerRewardTimer(uuid);
             if (dateTime.isBefore(LocalDateTime.now())) {
@@ -74,7 +75,7 @@ public class TEventListener implements Listener {
             inv.clear();
             LoadedItem item = QueuedItems.items.remove(p.getUniqueId());
             if(item != null){
-                item.ParseEveryting(p, Helpers.GetPlayerRewardLevel(p.getUniqueId().toString()));
+                item.ParseEveryting(p, Helpers.GetPlayerRewardLevel(p.getUniqueId()));
             }
             else{
                 Bukkit.getLogger().info("WARING PLAYER HAD NO ITEM WHEN CLOSSING SHUFFLE GUI THIS SHOULD NOT HAPPENDED");
@@ -85,7 +86,7 @@ public class TEventListener implements Listener {
             inv.clear();
             LoadedItem item = QueuedItems.items.remove(p.getUniqueId());
             if(item != null){
-                item.ParseEveryting(p, Helpers.GetPlayerRewardLevel(p.getUniqueId().toString()));
+                item.ParseEveryting(p, Helpers.GetPlayerRewardLevel(p.getUniqueId()));
             }
             else{
                 Bukkit.getLogger().info("WARING PLAYER HAD NO ITEM WHEN CLOSSING SLIDE GUI THIS SHOULD NOT HAPPENDED");

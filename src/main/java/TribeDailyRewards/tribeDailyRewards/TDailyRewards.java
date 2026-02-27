@@ -1,18 +1,13 @@
 package TribeDailyRewards.tribeDailyRewards;
 
 import org.bukkit.Bukkit;
-import org.bukkit.inventory.MainHand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.logging.Logger;
+import java.util.*;
 
 import net.milkbowl.vault.economy.Economy;
 
@@ -20,8 +15,8 @@ public final class TDailyRewards extends JavaPlugin {
 
     private final File dataFile = new File(getDataFolder(), "playerData.csv");
     private final File datesFile = new File(getDataFolder(), "dates.csv");
-    private final Map<String, Integer> data = new HashMap<>();
-    private final Map<String, LocalDateTime> dates = new HashMap<>();
+    private final Map<UUID, Integer> data = new HashMap<>();
+    private final Map<UUID, LocalDateTime> dates = new HashMap<>();
     private static Economy eco;
     private Random random = new Random();
 
@@ -67,7 +62,7 @@ public final class TDailyRewards extends JavaPlugin {
                     String line = scanner.nextLine();
                     String[] parts = line.split(",");
                     Integer value = Integer.parseInt(parts[1]);
-                    data.put(parts[0], value);
+                    data.put(UUID.fromString(parts[0]) , value);
                 }
                 scanner.close();
             } catch (IOException e) {
@@ -97,7 +92,7 @@ public final class TDailyRewards extends JavaPlugin {
                     int second = Integer.parseInt(parts[6]);
 
                     LocalDateTime date = LocalDateTime.of(year, month, day, hour, minute, second);
-                    dates.put(parts[0], date);
+                    dates.put(UUID.fromString(parts[0]), date);
                 }
                 scanner.close();
             } catch (IOException e) {
@@ -119,7 +114,7 @@ public final class TDailyRewards extends JavaPlugin {
     @Override
     public void onDisable() {
         try (PrintWriter writer = new PrintWriter(dataFile)) {
-            for (Map.Entry<String, Integer> entry : data.entrySet()) {
+            for (Map.Entry<UUID, Integer> entry : data.entrySet()) {
                 writer.println(entry.getKey() + "," + entry.getValue().toString());
             }
             getLogger().info("[Daily Reward] Saving playerData.csv");
@@ -127,7 +122,7 @@ public final class TDailyRewards extends JavaPlugin {
             e.printStackTrace();
         }
         try (PrintWriter writer = new PrintWriter(datesFile)) {
-            for (Map.Entry<String, LocalDateTime> entry : dates.entrySet()) {
+            for (Map.Entry<UUID, LocalDateTime> entry : dates.entrySet()) {
                 writer.println(entry.getKey() + "," + entry.getValue().getYear() + "," +
                         entry.getValue().getMonthValue() + "," + entry.getValue().getDayOfMonth() + "," +
                         entry.getValue().getHour() + "," + entry.getValue().getMinute() + "," +
@@ -154,10 +149,6 @@ public final class TDailyRewards extends JavaPlugin {
 
         eco = rsp.getProvider();
         return eco != null;
-    }
-
-    public Map<String, Integer> GetDataMap() {
-        return data;
     }
 
     public Economy GetEco() {

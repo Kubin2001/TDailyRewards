@@ -1,5 +1,5 @@
 name: TDailyRewards
-version: '1.2.6'
+version: '1.2.7'
 main: TribeDailyRewards.tribeDailyRewards.TDailyRewards
 api-version: '1.21'
 
@@ -29,12 +29,12 @@ commands:
     description: Move player reward time by x hours
     permission: tDailyRewards.admin
 
-  restart:
+  reload:
     usage: /<command>
-    description: Restarts main config
-    permission: tDailyRewards.restart
+    description: Reloads main config
+    permission: tDailyRewards.reload
 
-  restartItems:
+  reloadItems:
     usage: /<command>
-    description: Restarts items Config
-    permission: tDailyRewards.restartItems
+    description: Reloads items Config
+    permission: tDailyRewards.reloadItems

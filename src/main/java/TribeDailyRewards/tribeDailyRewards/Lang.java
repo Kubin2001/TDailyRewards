@@ -56,8 +56,8 @@ public class Lang {
         mainSec.set("RewardItemInfo", "&2&l");
         mainSec.set("RewardMoneyInfo", "&bMoney: ");
         mainSec.set("RewardReady", "&6&lYou can get daily reward type /reward");
-        mainSec.set("Restarted", "&7Main Config Restarted");
-        mainSec.set("ItemsRestarted", "&7Items Config Restarted");
+        mainSec.set("Reloaded", "&7Main Config Reloaded");
+        mainSec.set("ItemsReloaded", "&7Items Config Reloaded");
         mainSec.set("RewardGUI", "&2Reward Menu");
         mainSec.set("ShuffleGUI", "&2Shuffling Reward");
         mainSec.set("SlideGUI", "&2Mixing Reward");
@@ -94,8 +94,8 @@ public class Lang {
         mainSec.set("RewardGetInfo", "&bOtrzymałeś nagrodę za dzień:  &4&l");
         mainSec.set("RewardMoneyInfo", "&bMonety: ");
         mainSec.set("RewardReady", "&6&lMożesz odebrać codzienną nagrodę wpisz /reward");
-        mainSec.set("Restarted", "&7Główny plik konfiguracyjny został zrestartowany");
-        mainSec.set("ItemsRestarted", "&7Konfiguracja itemów zrestartowana");
+        mainSec.set("Reloaded", "&7Główny plik konfiguracyjny został przeładowany");
+        mainSec.set("ItemsReloaded", "&7Konfiguracja itemów przeładowana");
         mainSec.set("RewardGUI", "&2Menu Nagrody");
         mainSec.set("ShuffleGUI", "&2Losowanie Nagrody");
         mainSec.set("SlideGUI", "&2Wybieranie Nagrody");

@@ -26,9 +26,9 @@ public class CommandRestartItems implements CommandExecutor {
 
         double durationSec = lDurationSec / 1_000_000.0;
         if (sender instanceof Player p) {
-            Helpers.SendFormated(p, Lang.GetTrans("ItemsRestarted") + " time: " + durationSec + " ms");
+            Helpers.SendFormated(p, Lang.GetTrans("ItemsReloaded") + " time: " + durationSec + " ms");
         } else {
-            pl.getLogger().info(Lang.GetTrans("ItemsRestarted") + " time: " + durationSec + " ms");
+            pl.getLogger().info(Lang.GetTrans("ItemsRReloaded") + " time: " + durationSec + " ms");
         }
         return true;
     }

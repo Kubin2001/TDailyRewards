@@ -37,8 +37,8 @@ public final class TDailyRewards extends JavaPlugin {
         Helpers.Init(data, dates, eco);
         getServer().getPluginManager().registerEvents(new TEventListener(this), this);
         getCommand("reward").setExecutor(new Reward(this));
-        getCommand("restart").setExecutor(new CommandRestart(this));
-        getCommand("restartItems").setExecutor(new CommandRestartItems(this));
+        getCommand("reload").setExecutor(new CommandRestart(this));
+        getCommand("reloadItems").setExecutor(new CommandRestartItems(this));
 
         AdminCommands handler = new AdminCommands();
 

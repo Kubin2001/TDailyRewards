@@ -15,41 +15,44 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class TEventListener implements Listener {
-    private final Plugin plugin;
+    private Plugin plugin = null;
 
     TEventListener(Plugin plugin) {
         this.plugin = plugin;
     }
 
-
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
         UUID uuid = p.getUniqueId();
-        if (Helpers.IsPlayerRewardLevel(uuid)) {
-            LocalDateTime dateTime = Helpers.GetPlayerRewardTimer(uuid);
-            if (dateTime.isBefore(LocalDateTime.now())) {
-                Runnable task = () -> {
-                    if (p.isOnline()) {
-                        Helpers.SendFormated(p, Lang.GetTrans("RewardReady"));
-                    }
-                };
-                Helpers.RunTask(plugin, task, 80); //4 sekundy
 
-            }
-        } else {
-            Helpers.SetPlayerRewardLevel(uuid, 1);
-            Helpers.SetPlayerRewardTimer(uuid, LocalDateTime.now());
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            TDailyRewards tPlugin = (TDailyRewards)plugin;
+            tPlugin.LoadPlayer(uuid);
+        });
     }
 
+    @EventHandler
     public void onLeave(PlayerQuitEvent event){
         Player p = event.getPlayer();
+        UUID uuid = p.getUniqueId();
         QueuedItems.items.remove(p.getUniqueId());
+
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            TDailyRewards tPlugin = (TDailyRewards)plugin;
+            tPlugin.SavePlayer(uuid);
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                Helpers.data.remove(uuid);
+                Helpers.dates.remove(uuid);
+            });
+        });
     }
 
     @EventHandler

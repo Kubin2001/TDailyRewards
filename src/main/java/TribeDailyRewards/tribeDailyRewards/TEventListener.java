@@ -14,11 +14,6 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class TEventListener implements Listener {
@@ -81,7 +76,7 @@ public class TEventListener implements Listener {
                 item.ParseEveryting(p, Helpers.GetPlayerRewardLevel(p.getUniqueId()));
             }
             else{
-                Bukkit.getLogger().info("WARING PLAYER HAD NO ITEM WHEN CLOSSING SHUFFLE GUI THIS SHOULD NOT HAPPENDED");
+                Bukkit.getLogger().info("WARING PLAYER HAD NO ITEM WHEN CLOSING SHUFFLE GUI THIS SHOULD NOT HAPPENED");
             }
         }
         else if (view.getTitle().equals(Helpers.CFormat(Lang.GetTrans("SlideGUI")))) {
@@ -92,7 +87,7 @@ public class TEventListener implements Listener {
                 item.ParseEveryting(p, Helpers.GetPlayerRewardLevel(p.getUniqueId()));
             }
             else{
-                Bukkit.getLogger().info("WARING PLAYER HAD NO ITEM WHEN CLOSSING SLIDE GUI THIS SHOULD NOT HAPPENDED");
+                Bukkit.getLogger().info("WARING PLAYER HAD NO ITEM WHEN CLOSING SLIDE GUI THIS SHOULD NOT HAPPENED");
             }
         }
 

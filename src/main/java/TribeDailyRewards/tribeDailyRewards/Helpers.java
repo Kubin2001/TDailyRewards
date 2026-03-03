@@ -8,7 +8,6 @@ import org.bukkit.Sound;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
@@ -85,9 +84,6 @@ public class Helpers {
         p.playSound(p.getLocation(), sound, 1.0f, 1.0f);
     }
 
-    public static void RunTask(Plugin plugin, Runnable task, int delay) {
-        Bukkit.getScheduler().runTaskLater(plugin, task, delay);
-    }
     public static void PlayerPositiveSound(Player p) {
         p.playSound(p.getLocation(), MainConfig.positiveSound, 1.0f, 1.0f);
     }
@@ -95,17 +91,7 @@ public class Helpers {
         p.playSound(p.getLocation(), MainConfig.negativeSound, 1.0f, 1.0f);
     }
 
-    public static void RepairAll(Player player) {
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (item == null) continue;
 
-            ItemMeta meta = item.getItemMeta();
-            if (meta instanceof Damageable dmg) {
-                dmg.setDamage(0);
-                item.setItemMeta((ItemMeta) dmg);
-            }
-        }
-    }
 
     public static ItemStack CreateItem(Material mat, String name, String desc) {
         ItemStack retItem = new ItemStack(mat);

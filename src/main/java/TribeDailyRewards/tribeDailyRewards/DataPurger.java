@@ -5,9 +5,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.time.LocalDateTime;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.UUID;
 
 public class DataPurger {
@@ -22,20 +19,17 @@ public class DataPurger {
         long now = System.currentTimeMillis();
         long maxMillis = MainConfig.purgeDays * 24L * 60L * 60L * 1000L;
 
-        File daysFolder = new File(pl.getDataFolder(), "days");
-        File datesFolder = new File(pl.getDataFolder(), "dates");
+        File dataFolder = new File(pl.getDataFolder(), "data");
 
-        long removedDays = PurgeFolder(daysFolder, now, maxMillis);
-        long removedDates = PurgeFolder(datesFolder, now, maxMillis);
+        int removedPlayers = PurgeFolder(dataFolder, now, maxMillis);
 
         pl.getLogger().info("Purge Finished");
-        pl.getLogger().info("Days files removed: " + removedDays);
-        pl.getLogger().info("Dates files removed: " + removedDates);
+        pl.getLogger().info("Players removed: " + removedPlayers);
     }
 
-    private static long PurgeFolder(File folder, long now, long maxMillis) {
+    private static int PurgeFolder(File folder, long now, long maxMillis) {
 
-        long removed = 0;
+        int removed = 0;
 
         File[] files = folder.listFiles((dir, name) -> name.endsWith(".csv"));
         if (files == null) return 0;

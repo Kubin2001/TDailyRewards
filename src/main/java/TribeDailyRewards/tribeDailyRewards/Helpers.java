@@ -85,9 +85,11 @@ public class Helpers {
     }
 
     public static void PlayerPositiveSound(Player p) {
+        if(!MainConfig.positiveSoundEnable){return;}
         p.playSound(p.getLocation(), MainConfig.positiveSound, 1.0f, 1.0f);
     }
     public static void PlayErrorSound(Player p) {
+        if(!MainConfig.negativeSoundEnable){return;}
         p.playSound(p.getLocation(), MainConfig.negativeSound, 1.0f, 1.0f);
     }
 

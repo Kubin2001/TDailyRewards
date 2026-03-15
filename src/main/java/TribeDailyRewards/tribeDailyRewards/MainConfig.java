@@ -15,6 +15,8 @@ public class MainConfig {
 
     public static String langName = "";
     public static int rewardType = 1; // 1 normalne odrazu się dostaje 2 dla itemu wyskakuje menu
+    public static boolean positiveSoundEnable = true;
+    public static boolean negativeSoundEnable = true;
     public static Sound positiveSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
     public static Sound negativeSound = Sound.ENTITY_HORSE_HURT;
     public static int timeOutHours = 25;
@@ -58,10 +60,12 @@ public class MainConfig {
         if(positiveSound == null){
             positiveSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
         }
+        positiveSoundEnable = confSec.getBoolean("EnablePositiveSounds",true);
         negativeSound = LoadSound(confSec.getString("NegativeSound","---"),plugin);
         if(negativeSound== null){
             negativeSound = Sound.ENTITY_HORSE_HURT;
         }
+        negativeSoundEnable = confSec.getBoolean("EnableNegativeSounds",true);
         timeOutHours = confSec.getInt("TimeOutHours",25);
         if(timeOutHours > 1_000_000){
             timeOutHours = 1_000_000;

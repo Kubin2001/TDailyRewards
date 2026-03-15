@@ -17,9 +17,11 @@ Configuration:
   # Sound can also be in lower case not only upper but entity.illusioner.hurt will not be accepted you need to put
   # entity_illusioner_hurt
   # This sound will be played when player receives reward
+  EnablePositiveSounds: True
   PositiveSound: 'ENTITY_EXPERIENCE_ORB_PICKUP'
 
-  # This sound is player for example when player needs to wait for time for reward
+  # This sound is player for example when player needs to wait for time for reward or wrongly types command
+  EnableNegativeSounds: True
   NegativeSound: 'ENTITY_HORSE_HURT'
 
   # Number of hours after reward will time out for example with 25 player has 1 day and 1 hour

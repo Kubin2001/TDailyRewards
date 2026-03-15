@@ -1,7 +1,6 @@
 package TribeDailyRewards.tribeDailyRewards;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -174,7 +173,7 @@ public class Reward implements CommandExecutor {
                 counter++;
                 if(counter < iter){
                     rewardGui.setItem (slot, items.get (Helpers.GetRandom (0, items.size ()-1)).ToItem(rewardDays));
-                    Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+                    Helpers.PlayerPositiveSound(p);
                 }
                 else{
                     rewardGui.clear ();
@@ -194,7 +193,7 @@ public class Reward implements CommandExecutor {
                     }
                     rewardGui2.setItem (slot, finalItem.ToItem(rewardDays));
                     p.openInventory (rewardGui2);
-                    Helpers.PlaySoundToPLayer (p,Sound.ENTITY_PLAYER_LEVELUP);
+                    Helpers.PlayerPositiveSound(p);
                     this.cancel();
                 }
             }
@@ -248,7 +247,7 @@ public class Reward implements CommandExecutor {
                         return;
                     }
                     rewardGui.setItem (17, item.ToItem(rewardDays));
-                    Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+                    Helpers.PlayerPositiveSound(p);
                     return;
                 }
                 if(counter < iter){
@@ -256,7 +255,7 @@ public class Reward implements CommandExecutor {
                         rewardGui.setItem(i,rewardGui.getItem(i+1));
                     }
                     rewardGui.setItem (17, items.get(Helpers.GetRandom (0, lastIndex)).ToItem(rewardDays));
-                    Helpers.PlaySoundToPLayer (p,Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+                    Helpers.PlayerPositiveSound(p);
                 }
                 else{
                     LoadedItem finalItem = QueuedItems.items.remove(p.getUniqueId());
@@ -282,7 +281,7 @@ public class Reward implements CommandExecutor {
                             Helpers.CFormat(Lang.GetTrans("RewardGUI")));
                     rewardGui2.setItem (slot, item);
                     p.openInventory (rewardGui2);
-                    Helpers.PlaySoundToPLayer (p,Sound.ENTITY_PLAYER_LEVELUP);
+                    Helpers.PlayerPositiveSound(p);
                     this.cancel();
                 }
             }
@@ -300,8 +299,8 @@ public class Reward implements CommandExecutor {
 
         if (possibleItems == null) {
             Helpers.SendFormated(p, Lang.GetTrans("EmptyReward"));
-            Helpers.SetPlayerRewardTimer(uuid, LocalDateTime.now().plusDays(1));
-            Helpers.SetPlayerRewardLevel(uuid, rewardDays + 1);
+            Helpers.dates.put(uuid, LocalDateTime.now().plusHours (MainConfig.rewardHoursTime));
+            Helpers.data.put(uuid,rewardDays +1);
             return;
         }
 
@@ -335,7 +334,7 @@ public class Reward implements CommandExecutor {
         }
 
         Helpers.PlayerPositiveSound(p);
-        Helpers.SetPlayerRewardTimer(uuid, LocalDateTime.now().plusHours (MainConfig.rewardHoursTime));
-        Helpers.SetPlayerRewardLevel(uuid, rewardDays + 1);
+        Helpers.dates.put(uuid, LocalDateTime.now().plusHours (MainConfig.rewardHoursTime));
+        Helpers.data.put(uuid, rewardDays + 1);
     }
 }

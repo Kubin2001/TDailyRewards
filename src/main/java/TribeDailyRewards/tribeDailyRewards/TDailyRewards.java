@@ -50,8 +50,8 @@ public final class TDailyRewards extends JavaPlugin {
             if (p == null) return;
 
             if (finalDays == null || finalDate == null) {
-                Helpers.SetPlayerRewardLevel(uuid, 1);
-                Helpers.SetPlayerRewardTimer(uuid, LocalDateTime.now());
+                Helpers.data.put(uuid, 1);
+                Helpers.dates.put(uuid, LocalDateTime.now());
                 Helpers.SendFormated(p, Lang.GetTrans("RewardReady"));
             } else {
                 Helpers.data.put(uuid, finalDays);

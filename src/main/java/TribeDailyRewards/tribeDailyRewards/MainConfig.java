@@ -40,42 +40,36 @@ public class MainConfig {
     public static void Load(Plugin plugin){
         File file = plugin.getDataFolder();
         File configFile = new File(file, "config.yml");
-        YamlConfiguration yamlConf = null;
         if (!configFile.exists()) {
             Bukkit.getLogger().info("[DailyReward] generating mainConfig");
             plugin.saveResource("config.yml", false);
         }
 
         Bukkit.getLogger().info("[DailyReward] loading mainConfig");
-        yamlConf = YamlConfiguration.loadConfiguration(configFile);
-        ConfigurationSection confSec = yamlConf.getConfigurationSection("Configuration");
-        if(confSec == null){
-            plugin.getLogger().info("Main config does not have its configuration section it cannot be loaded");
-            return;
-        }
-        langName = confSec.getString("UsedLanguage", "en");
-        rewardType = confSec.getInt("RewardType", 1);
+        YamlConfiguration yamlConf = YamlConfiguration.loadConfiguration(configFile);
+        langName = yamlConf.getString("UsedLanguage", "en");
+        rewardType = yamlConf.getInt("RewardType", 1);
 
-        positiveSound = LoadSound(confSec.getString("PositiveSound","---"),plugin);
+        positiveSound = LoadSound(yamlConf.getString("PositiveSound","---"),plugin);
         if(positiveSound == null){
             positiveSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
         }
-        positiveSoundEnable = confSec.getBoolean("EnablePositiveSounds",true);
-        negativeSound = LoadSound(confSec.getString("NegativeSound","---"),plugin);
+        positiveSoundEnable = yamlConf.getBoolean("EnablePositiveSounds",true);
+        negativeSound = LoadSound(yamlConf.getString("NegativeSound","---"),plugin);
         if(negativeSound== null){
             negativeSound = Sound.ENTITY_HORSE_HURT;
         }
-        negativeSoundEnable = confSec.getBoolean("EnableNegativeSounds",true);
-        timeOutHours = confSec.getInt("TimeOutHours",25);
+        negativeSoundEnable = yamlConf.getBoolean("EnableNegativeSounds",true);
+        timeOutHours = yamlConf.getInt("TimeOutHours",25);
         if(timeOutHours > 1_000_000){
             timeOutHours = 1_000_000;
         }
         if(timeOutHours < 1){
             timeOutHours = 1;
         }
-        resetType = confSec.getInt("ResetType",1);
+        resetType = yamlConf.getInt("ResetType",1);
 
-        resetDaysRemove = confSec.getInt("ResetDaysRemove",1);
+        resetDaysRemove = yamlConf.getInt("ResetDaysRemove",1);
         if(resetDaysRemove < 1){
             resetDaysRemove = 1;
         }
@@ -83,7 +77,7 @@ public class MainConfig {
             resetDaysRemove = 1000;
         }
 
-        rewardHoursTime = confSec.getInt ("RewardHoursTime",24);
+        rewardHoursTime = yamlConf.getInt ("RewardHoursTime",24);
         if(rewardHoursTime < 0){
             rewardHoursTime = 0;
         }
@@ -91,9 +85,9 @@ public class MainConfig {
             rewardHoursTime = 1_000_000;
         }
 
-        purgeData = confSec.getInt("PurgeData",0);
+        purgeData = yamlConf.getInt("PurgeData",0);
 
-        purgeDays = confSec.getInt("PurgeDays",30);
+        purgeDays = yamlConf.getInt("PurgeDays",30);
 
 
     }

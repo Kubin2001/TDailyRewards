@@ -1,50 +1,49 @@
+# Load language file from Lang folder
+# Default only En and Pl are created but you can add your own file
+# For example if you want to support Spanish just copy En
+# change messages to spanish (Do not modify message names)
+# Then just change file name to ES
+UsedLanguage: en
 
-Configuration:
-  # Load language file from Lang folder
-  # Default only En and Pl are created but you can add your own file
-  # For example if you want to support Spanish just copy En
-  # change messages to spanish (Do not modify message names)
-  # Then just change file name to ES
-  UsedLanguage: en
+# 1: Reward will be given to player instantly
+# 2: GUI will open with all the items, money will still be given instantly
+# 3: GUI Shuffle shows randomized item 10 times then opens second reward type (Only 1 item supported other
+# in the same JoinID will be added to shuffle pool not connected)
+# 4: GUI will be switching all possible items from right to left sliding them until final item will be at center
+RewardType: 1
 
-  # 1: Reward will be given to player instantly
-  # 2: GUI will open with all the items, money will still be given instantly
-  # 3: GUI Shuffle shows randomized item 10 times then opens second reward type (Only 1 item supported other
-  # in the same JoinID will be added to shuffle pool not connected)
-  # 4: GUI will be switching all possible items from right to left sliding them until final item will be at center
-  RewardType: 1
+# Sound can also be in lower case not only upper but entity.illusioner.hurt will not be accepted you need to put
+# entity_illusioner_hurt
+# This sound will be played when player receives reward
+EnablePositiveSounds: True
+PositiveSound: 'ENTITY_EXPERIENCE_ORB_PICKUP'
 
-  # Sound can also be in lower case not only upper but entity.illusioner.hurt will not be accepted you need to put
-  # entity_illusioner_hurt
-  # This sound will be played when player receives reward
-  EnablePositiveSounds: True
-  PositiveSound: 'ENTITY_EXPERIENCE_ORB_PICKUP'
+# This sound is player for example when player needs to wait for time for reward or wrongly types command
+EnableNegativeSounds: True
+NegativeSound: 'ENTITY_HORSE_HURT'
 
-  # This sound is player for example when player needs to wait for time for reward or wrongly types command
-  EnableNegativeSounds: True
-  NegativeSound: 'ENTITY_HORSE_HURT'
+# Number of hours after reward will time out for example with 25 player has 1 day and 1 hour
+# to get reward when it is available max is 1'000'000 and min is 1
+TimeOutHours: 25
 
-  # Number of hours after reward will time out for example with 25 player has 1 day and 1 hour
-  # to get reward when it is available max is 1'000'000 and min is 1
-  TimeOutHours: 25
+# This decides what happens when player reward reached time out
+# 1 Resets to day 1 (To the first reward)
+# 2 Removes amount of days that can be set up in the setting below
+ResetType: 1
 
-  # This decides what happens when player reward reached time out
-  # 1 Resets to day 1 (To the first reward)
-  # 2 Removes amount of days that can be set up in the setting below
-  ResetType: 1
+# How much days will be removed from player reward if reset type is set to 2
+# Min value is 1 max value is 1000
+ResetDaysRemove: 1
 
-  # How much days will be removed from player reward if reset type is set to 2
-  # Min value is 1 max value is 1000
-  ResetDaysRemove: 1
+# After how many hours next reward can be taken (Base is 24 so it is just one full day)
+# The lowest possible is 0 so the next reward can be attained instantly (Heavily not recommended)
+# The highest one is 1'000'000
+RewardHoursTime: 24
 
-  # After how many hours next reward can be taken (Base is 24 so it is just one full day)
-  # The lowest possible is 0 so the next reward can be attained instantly (Heavily not recommended)
-  # The highest one is 1'000'000
-  RewardHoursTime: 24
+# If set to 1 old data will be removed if player has not joined the server in amount of days set in purge days
+PurgeData: 0
 
-  # If set to 1 old data will be removed if player has not joined the server in amount of days set in purge days
-  PurgeData: 0
+# After how many days data will be purged does nothing if purge data is set to 0
+PurgeDays: 30
 
-  # After how many days data will be purged does nothing if purge data is set to 0
-  PurgeDays: 30
 

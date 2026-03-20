@@ -20,7 +20,7 @@ PositiveSound: 'ENTITY_EXPERIENCE_ORB_PICKUP'
 
 # This sound is player for example when player needs to wait for time for reward or wrongly types command
 EnableNegativeSounds: True
-NegativeSound: 'ENTITY_HORSE_HURT'
+NegativeSound: 'BLOCK_NOTE_BLOCK_BASS'
 
 # Number of hours after reward will time out for example with 25 player has 1 day and 1 hour
 # to get reward when it is available max is 1'000'000 and min is 1

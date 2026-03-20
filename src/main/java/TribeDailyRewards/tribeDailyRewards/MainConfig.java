@@ -14,11 +14,11 @@ import java.util.List;
 public class MainConfig {
 
     public static String langName = "";
-    public static int rewardType = 1; // 1 normalne odrazu się dostaje 2 dla itemu wyskakuje menu
+    public static int rewardType = 1;
     public static boolean positiveSoundEnable = true;
     public static boolean negativeSoundEnable = true;
     public static Sound positiveSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
-    public static Sound negativeSound = Sound.ENTITY_HORSE_HURT;
+    public static Sound negativeSound = Sound.BLOCK_NOTE_BLOCK_BASS;
     public static int timeOutHours = 25;
     public static int resetType = 1;
     public static int resetDaysRemove = 1;
@@ -57,7 +57,7 @@ public class MainConfig {
         positiveSoundEnable = yamlConf.getBoolean("EnablePositiveSounds",true);
         negativeSound = LoadSound(yamlConf.getString("NegativeSound","---"),plugin);
         if(negativeSound== null){
-            negativeSound = Sound.ENTITY_HORSE_HURT;
+            negativeSound = Sound.BLOCK_NOTE_BLOCK_BASS;
         }
         negativeSoundEnable = yamlConf.getBoolean("EnableNegativeSounds",true);
         timeOutHours = yamlConf.getInt("TimeOutHours",25);

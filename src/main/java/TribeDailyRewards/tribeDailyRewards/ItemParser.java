@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class ItemParser {
     private static Plugin plugin = null;
@@ -47,6 +48,10 @@ public class ItemParser {
             comments.add("");
             comments.add("Name");
             comments.add("Represents material which item uses so in reality what item you will get");
+            comments.add("Supports many conventions like:");
+            comments.add("IRON_INGOT");
+            comments.add("iron_ingot");
+            comments.add("iron ingot");
             comments.add("Amount");
             comments.add("Represent how many items you will get base is 1");
             comments.add("Custom Name");
@@ -73,7 +78,7 @@ public class ItemParser {
             comments.add("  Day: 1");
             comments.add("  ScalingStart: 10");
             comments.add("  Money: 200");
-            comments.add("  Name: DIAMOND");
+            comments.add("  Name: diamond");
             comments.add("  Amount: 4");
             comments.add("  CustomName: '&2&lReward Diamond'");
             comments.add("  Lore: 'Some custom lore'");
@@ -81,7 +86,7 @@ public class ItemParser {
             comments.add("      sharpness: 5");
             comments.add("      unbreaking: 3");
             comments.add("      efficiency: 8");
-            comments.add("  CustomMessage: '&6&lYou just recived your great reward'");
+            comments.add("  CustomMessage: '&6&lYou just received your great reward'");
             comments.add("  JoinID: 1");
             comments.add("  Command: 'eco give %player% 100'");
             comments.add("-------------------------------------------");
@@ -142,7 +147,7 @@ public class ItemParser {
 
             CreateItem(20, Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, 1);
 
-            CreateMoneyScalling(-1, 100, 20);
+            CreateMoneyScaling(-1, 100, 20);
             CreateItemFull(-1, Material.DIAMOND, 1, null, null, 0, 20, 0);
             CreateItemFull(-1, Material.IRON_BLOCK, 1, null, null, 0, 20, 0);
 
@@ -173,7 +178,7 @@ public class ItemParser {
         CreateItemFull(day, null, 0, null, null, money, -1, 0);
     }
 
-    static private void CreateMoneyScalling(int day, int money, int scaling) {
+    static private void CreateMoneyScaling(int day, int money, int scaling) {
         CreateItemFull(day, null, 0, null, null, money, scaling, 0);
     }
 
@@ -212,7 +217,7 @@ public class ItemParser {
             sec.set("Money", money);
         }
         if (material != null) {
-            sec.set("Name", material.toString());
+            sec.set("Name", material.toString().toLowerCase(Locale.ROOT).replace("_"," "));
             sec.set("Amount", amount);
             if (customName != null) {
                 sec.set("CustomName", customName);
@@ -230,6 +235,14 @@ public class ItemParser {
         }
     }
 
+    static private String ParseItem(String itemStr){
+        if(itemStr.isEmpty()){
+            return  "";
+        }
+        return itemStr.toUpperCase(Locale.ROOT).replace(" ", "_");
+
+    }
+
     static private void ParseConfig(ConfigurationSection mainSection) {
         for (String selectionItem : mainSection.getKeys(false)) {
             ConfigurationSection confItem = mainSection.getConfigurationSection(selectionItem);
@@ -237,7 +250,7 @@ public class ItemParser {
                 Bukkit.getLogger().info("Wrong configuration section is null in key " + selectionItem);
                 continue;
             }
-            String materialStr = confItem.getString("Name", "");
+            String materialStr = ParseItem(confItem.getString("Name", ""));
             Material material = Material.getMaterial(materialStr); // May be null it is expected bahaviour
 
             int day = confItem.getInt("Day", 1);

@@ -75,9 +75,6 @@ public class TEventListener implements Listener {
             if(item != null){
                 item.ParseEveryting(p, Helpers.GetPlayerRewardLevel(p.getUniqueId()));
             }
-            else{
-                Bukkit.getLogger().info("WARING PLAYER HAD NO ITEM WHEN CLOSING SHUFFLE GUI THIS SHOULD NOT HAPPENED");
-            }
         }
         else if (view.getTitle().equals(Helpers.CFormat(Lang.GetTrans("SlideGUI")))) {
             Inventory inv = view.getTopInventory();
@@ -86,11 +83,7 @@ public class TEventListener implements Listener {
             if(item != null){
                 item.ParseEveryting(p, Helpers.GetPlayerRewardLevel(p.getUniqueId()));
             }
-            else{
-                Bukkit.getLogger().info("WARING PLAYER HAD NO ITEM WHEN CLOSING SLIDE GUI THIS SHOULD NOT HAPPENED");
-            }
         }
-
     }
 
     @EventHandler

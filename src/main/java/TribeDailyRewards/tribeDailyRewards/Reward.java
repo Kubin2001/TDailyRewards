@@ -147,7 +147,17 @@ public class Reward implements CommandExecutor {
             }
         }
 
+        if(items.isEmpty ()){
+            return;
+        }
+
         LoadedItem finalLItem = items.get (Helpers.GetRandom (0, items.size ()-1));
+//        if(finalLItem == null){
+//            Bukkit.getLogger ().info ("It is null here");
+//        }
+//        else{
+//            Bukkit.getLogger ().info ("Not null here");
+//        }
         QueuedItems.items.put(p.getUniqueId(),finalLItem);
         ItemWithCommand firstItem = items.get (Helpers.GetRandom (0, items.size ()-1)).ToItemWithCommand(rewardDays,p);
         rewardGui.setItem (slot, firstItem.item);
@@ -157,6 +167,7 @@ public class Reward implements CommandExecutor {
             Helpers.getEco().depositPlayer(p, money);
             Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
         }
+
         p.openInventory(rewardGui);
 
         new BukkitRunnable (){
@@ -176,22 +187,22 @@ public class Reward implements CommandExecutor {
                     Helpers.PlayerPositiveSound(p);
                 }
                 else{
-                    rewardGui.clear ();
-                    p.closeInventory ();
-                    Inventory rewardGui2 = Bukkit.createInventory(p, 27,
-                                                                 Helpers.CFormat(Lang.GetTrans("RewardGUI")));
-                    // Yep remove gives destroyed item did not know it
-                    LoadedItem finalItem = QueuedItems.items.remove(p.getUniqueId());
-                    if(finalItem == null){
+                    QueuedItems.items.remove(p.getUniqueId());
+                    if(finalLItem == null){
                         Bukkit.getLogger().info("WARNING PLAYER ITEM NOT FOUND IN SHUFFLE PLEASE REPORT THIS ERROR ON SPIGOT");
                         this.cancel();
                         return;
                     }
-                    String command = finalItem.GetCommand(p);
+
+                    rewardGui.clear ();
+                    p.closeInventory ();
+                    Inventory rewardGui2 = Bukkit.createInventory(p, 27,
+                                                                 Helpers.CFormat(Lang.GetTrans("RewardGUI")));
+                    String command = finalLItem.GetCommand(p);
                     if(command != null){
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
                     }
-                    rewardGui2.setItem (slot, finalItem.ToItem(rewardDays));
+                    rewardGui2.setItem (slot, finalLItem.ToItem(rewardDays));
                     p.openInventory (rewardGui2);
                     Helpers.PlayerPositiveSound(p);
                     this.cancel();
@@ -216,12 +227,16 @@ public class Reward implements CommandExecutor {
                 items.add (lItem);
             }
         }
+        if(items.isEmpty ()){
+            return;
+        }
         int lastIndex = items.size()-1;
         QueuedItems.items.put(p.getUniqueId(),items.get(Helpers.GetRandom (0, lastIndex))); // Final Item
         // Filling central row
         for(int i = 9; i <= 17; i++){
             rewardGui.setItem (i, items.get(Helpers.GetRandom (0, lastIndex)).ToItem(rewardDays));
         }
+
         p.openInventory(rewardGui);
 
         new BukkitRunnable (){

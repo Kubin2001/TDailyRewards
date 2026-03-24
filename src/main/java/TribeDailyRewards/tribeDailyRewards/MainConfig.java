@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainConfig {
 
@@ -26,15 +27,14 @@ public class MainConfig {
     public static int purgeData = 0;
     public static int purgeDays = 30;
 
-    private static Sound LoadSound(String name, Plugin p){
-        String strUpper = name.toUpperCase();
+    private static Sound LoadSound(String name, Plugin p, Sound base){
+        String soundString = name.toUpperCase(Locale.ROOT).replace(" ", "_").replace(".", "_");
         try{
-            return Sound.valueOf(strUpper);
+            return Sound.valueOf(soundString);
         }
         catch (Exception e){
-            p.getLogger().info("Cannot load sound from config is it missing? Or maybe format is wrong");
+            return base;
         }
-        return null;
     }
 
     public static void Load(Plugin plugin){
@@ -50,12 +50,12 @@ public class MainConfig {
         langName = yamlConf.getString("UsedLanguage", "en");
         rewardType = yamlConf.getInt("RewardType", 1);
 
-        positiveSound = LoadSound(yamlConf.getString("PositiveSound","---"),plugin);
+        positiveSound = LoadSound(yamlConf.getString("PositiveSound","---"),plugin, positiveSound);
         if(positiveSound == null){
             positiveSound = Sound.ENTITY_EXPERIENCE_ORB_PICKUP;
         }
         positiveSoundEnable = yamlConf.getBoolean("EnablePositiveSounds",true);
-        negativeSound = LoadSound(yamlConf.getString("NegativeSound","---"),plugin);
+        negativeSound = LoadSound(yamlConf.getString("NegativeSound","---"),plugin, negativeSound);
         if(negativeSound== null){
             negativeSound = Sound.BLOCK_NOTE_BLOCK_BASS;
         }

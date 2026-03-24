@@ -12,9 +12,13 @@ UsedLanguage: en
 # 4: GUI will be switching all possible items from right to left sliding them until final item will be at center
 RewardType: 1
 
-# Sound can also be in lower case not only upper but entity.illusioner.hurt will not be accepted you need to put
-# entity_illusioner_hurt
+
 # This sound will be played when player receives reward
+# Accepted formats
+# SOME_SOUND
+# Some Sound
+# Some.Sound
+# some sound
 EnablePositiveSounds: True
 PositiveSound: 'ENTITY_EXPERIENCE_ORB_PICKUP'
 

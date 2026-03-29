@@ -3,7 +3,6 @@ package TribeDailyRewards.tribeDailyRewards;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -46,7 +45,7 @@ public class ItemParser {
             comments.add("All empty days will be treated as -1");
             comments.add("-1 Is a special day which is called when no day is fulfilled perfect for unlimited rewards");
             comments.add("");
-            comments.add("Name");
+            comments.add("Item");
             comments.add("Represents material which item uses so in reality what item you will get");
             comments.add("Supports many conventions like:");
             comments.add("IRON_INGOT");
@@ -78,7 +77,7 @@ public class ItemParser {
             comments.add("  Day: 1");
             comments.add("  ScalingStart: 10");
             comments.add("  Money: 200");
-            comments.add("  Name: diamond");
+            comments.add("  Item: diamond");
             comments.add("  Amount: 4");
             comments.add("  CustomName: '&2&lReward Diamond'");
             comments.add("  Lore: 'Some custom lore'");
@@ -217,7 +216,7 @@ public class ItemParser {
             sec.set("Money", money);
         }
         if (material != null) {
-            sec.set("Name", material.toString().toLowerCase(Locale.ROOT).replace("_"," "));
+            sec.set("Item", material.toString().toLowerCase(Locale.ROOT).replace("_"," "));
             sec.set("Amount", amount);
             if (customName != null) {
                 sec.set("CustomName", customName);
@@ -243,6 +242,11 @@ public class ItemParser {
 
     }
 
+    private static Enchantment ParseEnchant(String name) {
+        String key = name.toLowerCase(Locale.ROOT).replace(" ", "_").replace(".", "_");
+        return Enchantment.getByKey(NamespacedKey.minecraft(key));
+    }
+
     static private void ParseConfig(ConfigurationSection mainSection) {
         for (String selectionItem : mainSection.getKeys(false)) {
             ConfigurationSection confItem = mainSection.getConfigurationSection(selectionItem);
@@ -250,7 +254,7 @@ public class ItemParser {
                 Bukkit.getLogger().info("Wrong configuration section is null in key " + selectionItem);
                 continue;
             }
-            String materialStr = ParseItem(confItem.getString("Name", ""));
+            String materialStr = ParseItem(confItem.getString("Item", ""));
             Material material = Material.getMaterial(materialStr); // May be null it is expected bahaviour
 
             int day = confItem.getInt("Day", 1);
@@ -269,10 +273,9 @@ public class ItemParser {
             if (enchSection != null) {
                 for (String enchItem : enchSection.getKeys(false)) {
                     int level = enchSection.getInt(enchItem, 1);
-                    NamespacedKey key = NamespacedKey.minecraft(enchItem);
-                    Enchantment enchantment = Registry.ENCHANTMENT.get(key);
-
+                    Enchantment enchantment = ParseEnchant (enchItem);
                     if (enchantment == null) {
+                        Bukkit.getLogger ().info ("Broken enchant when loading items key: "+ enchItem);
                         continue;
                     }
                     enchants.add(new FullEnchant(enchantment, level));

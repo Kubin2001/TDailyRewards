@@ -17,27 +17,21 @@ import java.util.List;
 import java.util.Locale;
 
 public class ItemParser {
-    private static Plugin plugin = null;
     private static File configFile;
-    private static YamlConfiguration yamlData;
-    private static ConfigurationSection mainSection = null;
+    private static YamlConfiguration yamlConf;
     public static HashMap<Integer, ArrayList<LoadedItem>> loadedItems = new HashMap<>();
     public static HashMap<Integer, Integer> itemHelper = new HashMap<>(); // Dzień Ilośc
 
     public static void Clear() {
         configFile = null;
-        mainSection = null;
         loadedItems.clear();
         itemHelper.clear();
     }
 
     static void Init(Plugin plugin) {
-        ItemParser.plugin = plugin;
         configFile = new File(plugin.getDataFolder(), "itemConfig.yml");
         if (!configFile.exists()) {
-            yamlData = new YamlConfiguration();
-
-            mainSection = yamlData.createSection("Items");
+            yamlConf = new YamlConfiguration();
             List<String> comments = new ArrayList<String>();
             comments.add("-------------TDailyRewards-------------");
             comments.add("Day: Represents at which day player will get reward can be any number");
@@ -90,7 +84,7 @@ public class ItemParser {
             comments.add("  Command: 'eco give %player% 100'");
             comments.add("-------------------------------------------");
 
-            yamlData.setComments("Items", comments);
+            yamlConf.options().setHeader(comments);
             //CreateItem(3,Material.EMERALD,4,"&6Szmaragd uszaty śmieszny",null,0);
 
             CreateItem(1, Material.IRON_INGOT, 4);
@@ -151,21 +145,16 @@ public class ItemParser {
             CreateItemFull(-1, Material.IRON_BLOCK, 1, null, null, 0, 20, 0);
 
             try {
-                yamlData.save(configFile);
+                yamlConf.save(configFile);
                 Bukkit.getLogger().info("[ItemParser] Created default itemConfig.yml");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ParseConfig(mainSection);
+            ParseConfig(yamlConf);
         } else {
             Bukkit.getLogger().info("Parsing item config");
-            yamlData = YamlConfiguration.loadConfiguration(configFile);
-            mainSection = yamlData.getConfigurationSection("Items");
-            if (mainSection == null) {
-                throw new RuntimeException("Main item config section is null aborting parsing if you don't "
-                        + "know what to do regenerate config");
-            }
-            ParseConfig(mainSection);
+            yamlConf = YamlConfiguration.loadConfiguration(configFile);
+            ParseConfig(yamlConf);
         }
     }
 
@@ -204,7 +193,7 @@ public class ItemParser {
         }
 
         String name = "Day" + day + "Item" + count;
-        ConfigurationSection sec = mainSection.createSection(name);
+        ConfigurationSection sec = yamlConf.createSection(name);
         if (joinID != 0) {
             sec.set("JoinID", joinID);
         }
@@ -239,7 +228,6 @@ public class ItemParser {
             return  "";
         }
         return itemStr.toUpperCase(Locale.ROOT).replace(" ", "_");
-
     }
 
     private static Enchantment ParseEnchant(String name) {
@@ -255,7 +243,13 @@ public class ItemParser {
                 continue;
             }
             String materialStr = ParseItem(confItem.getString("Item", ""));
-            Material material = Material.getMaterial(materialStr); // May be null it is expected bahaviour
+            Material material = Material.getMaterial(materialStr);
+            if(!materialStr.isEmpty() && material == null){ // If it "" it is fine
+                material = Material.DIRT;
+                Bukkit.getLogger().info("Unexisting material in item: " +confItem.toString() +
+                        "wrong name: " + materialStr + " this reward will give dirt until fixed");
+            }
+
 
             int day = confItem.getInt("Day", 1);
             int joinID = confItem.getInt("JoinID", 0);

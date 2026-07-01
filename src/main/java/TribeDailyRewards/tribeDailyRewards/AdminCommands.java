@@ -82,7 +82,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             }
 
             return true;
-        } else if (command.getName().equalsIgnoreCase("rewardInfo")) {
+        }
+        else if (command.getName().equalsIgnoreCase("rewardInfo")) {
             if (args.length != 1) {
                 sender.sendMessage(Helpers.CFormat(Lang.GetTrans("WrongArgs1")));
                 return true;
@@ -100,13 +101,19 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 Helpers.SendFormated(p,"&7---------------------------------------");
                 Helpers.SendFormated(p, targetName);
                 p.sendMessage(Lang.GetTrans("LevelInfo") + Helpers.GetPlayerRewardLevel(target.getUniqueId()));
-                Duration remain = Duration.between(LocalDateTime.now(), Helpers.GetPlayerRewardTimer(target.getUniqueId()));
-                long totalMinutes = remain.toMinutes();
-                long days = totalMinutes / (24 * 60);
-                long hours = (totalMinutes % (24 * 60)) / 60;
-                long minutes = totalMinutes % 60;
-                Helpers.SendFormated(p, Lang.GetTrans("WaitTimeInfo") + days + Lang.GetTrans("Day")
-                                        + hours + Lang.GetTrans("Hour")+ minutes + Lang.GetTrans("Minute"));
+                LocalDateTime rewardTimer = Helpers.GetPlayerRewardTimer(target.getUniqueId());
+                Duration remain = Duration.between(LocalDateTime.now(), rewardTimer);
+                if(rewardTimer.isBefore (LocalDateTime.now ())){
+                    Helpers.SendFormated (p, Lang.GetTrans ("RewardTimeReady"));
+                }
+                else{
+                    long totalMinutes = remain.toMinutes();
+                    long days = totalMinutes / (24 * 60);
+                    long hours = (totalMinutes % (24 * 60)) / 60;
+                    long minutes = totalMinutes % 60;
+                    Helpers.SendFormated(p, Lang.GetTrans("WaitTimeInfo") + days + Lang.GetTrans("Day")
+                                            + hours + Lang.GetTrans("Hour")+ minutes + Lang.GetTrans("Minute"));
+                }
                 Helpers.SendFormated(p,"&7---------------------------------------");
             }
 

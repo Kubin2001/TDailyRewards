@@ -50,6 +50,7 @@ public class Lang {
         mainSec.set("PlayerOnly", "You cannot call this command from console it is Player only");
         mainSec.set("MissingTimerP", "&4Plugin error you do not have reward timer contact server administrator");
         mainSec.set("WaitTime", "&4&lYou need to wait: ");
+        mainSec.set("RewardTimeReady", "&2&lReady!");
         mainSec.set("WaitTimeInfo", "Time to the next reward: ");
         mainSec.set("EmptyReward", "&4There is no reward for this day");
         mainSec.set("RewardGetInfo", "&bYou received reward for day:  &4&l");
@@ -88,7 +89,8 @@ public class Lang {
         mainSec.set("PlayerOnly", "Ta komendą może zostać odpalona wyłącznie z poziomu gracza");
         mainSec.set("MissingTimerP", "&4Bład pluginu nie znaleziono czasu nagrody gracza skontaktuj się z administracją");
         mainSec.set("WaitTime", "&4&lMusisz poczekać: ");
-        mainSec.set("WaitTimeInfo", "Czas do nastepnej nagrody: ");
+        mainSec.set("RewardTimeReady", "&2&lReady!");
+        mainSec.set("WaitTimeInfo", "Czas do następnej nagrody: ");
         mainSec.set("EmptyReward", "&4Za ten dzień nie ma nagrody");
         mainSec.set("RewardItemInfo", "&2&l");
         mainSec.set("RewardGetInfo", "&bOtrzymałeś nagrodę za dzień:  &4&l");
@@ -110,7 +112,6 @@ public class Lang {
     }
 
     private static void CreateDefaultLocale(File langFolder) throws IOException {
-
         CreateEnglishLocale(langFolder);
         CreatePolishLocale(langFolder);
         //Loading default en.locale
@@ -134,10 +135,7 @@ public class Lang {
             langMap.put(secItem, val);
         }
 
-        Bukkit.getLogger().info("[Daily Reward] Loaded lang functions");
-//        for(Map.Entry<String ,String> entry : langMap.entrySet ()){
-//            Bukkit.getLogger().info(entry.getKey() + "  " + entry.getValue());
-//        }
+        Bukkit.getLogger().info("[TDaily Reward] Loaded lang");
     }
 
     public static String GetTrans(String key) {

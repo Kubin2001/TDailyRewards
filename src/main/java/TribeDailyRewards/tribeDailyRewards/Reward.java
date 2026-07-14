@@ -73,6 +73,8 @@ public class Reward implements CommandExecutor {
         Helpers.SendFormated(p, Lang.GetTrans("RewardGetInfo") + rewardDays);
         for (LoadedItem lItem : possibleItems) {
             ItemStack item = lItem.ToItem(rewardDays);
+            int money = lItem.ToMoney(rewardDays);
+            String command = lItem.ToCommand(p);
             if (item != null) {
                 Inventory inv = p.getInventory();
                 if (inv.firstEmpty() != -1) { // there is a free slot
@@ -81,24 +83,23 @@ public class Reward implements CommandExecutor {
                     p.getWorld().dropItemNaturally(p.getLocation(), item);
                 }
 
-                if (lItem.cutomMassage != null) {
-                    Helpers.SendFormated(p, lItem.cutomMassage);
-                } else {
-                    Helpers.SendFormated(p, Lang.GetTrans("RewardItemInfo") +
-                            lItem.amount + " " + Helpers.GetItemName(lItem.material));
-                }
-                String command = lItem.GetCommand(p);
-                if(command != null){
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
-                }
             }
-
-            int money = lItem.ToMoney(rewardDays);
             if (money != 0) {
                 Helpers.getEco().depositPlayer(p, money);
                 if (lItem.cutomMassage == null) {
                     Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
                 }
+            }
+            if(command != null){
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
+            }
+
+            if (lItem.cutomMassage != null) {
+                Helpers.SendFormated(p, lItem.cutomMassage);
+            }
+            else if(lItem.material != null){
+                Helpers.SendFormated(p, Lang.GetTrans("RewardItemInfo") +
+                        lItem.amount + " " + Helpers.GetItemName(lItem.material));
             }
         }
     }
@@ -152,15 +153,10 @@ public class Reward implements CommandExecutor {
         }
 
         LoadedItem finalLItem = items.get (Helpers.GetRandom (0, items.size ()-1));
-//        if(finalLItem == null){
-//            Bukkit.getLogger ().info ("It is null here");
-//        }
-//        else{
-//            Bukkit.getLogger ().info ("Not null here");
-//        }
+
         QueuedItems.items.put(p.getUniqueId(),finalLItem);
-        ItemWithCommand firstItem = items.get (Helpers.GetRandom (0, items.size ()-1)).ToItemWithCommand(rewardDays,p);
-        rewardGui.setItem (slot, firstItem.item);
+        ItemStack firstItem = items.get (Helpers.GetRandom (0, items.size ()-1)).ToItem(rewardDays);
+        rewardGui.setItem (slot, firstItem);
 
         int money = finalLItem.ToMoney(rewardDays);
         if (money != 0) {

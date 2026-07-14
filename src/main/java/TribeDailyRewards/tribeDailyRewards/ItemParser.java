@@ -251,7 +251,7 @@ public class ItemParser {
             }
 
 
-            int day = confItem.getInt("Day", 1);
+            int day = confItem.getInt("Day", -1);
             int joinID = confItem.getInt("JoinID", 0);
             int amount = confItem.getInt("Amount", 1);
             String command = confItem.getString("Command",null);

@@ -148,7 +148,17 @@ public class Reward implements CommandExecutor {
             }
         }
 
-        if(items.isEmpty ()){
+        if(items.isEmpty ()){ // Adding money and command wihout opening gui since all items are null
+            LoadedItem randomItem = possibleItems.get (Helpers.GetRandom (0, possibleItems.size ()-1));
+            int rMoney = randomItem.ToMoney (rewardDays);
+            String command = randomItem.ToCommand (p);
+            if(rMoney != 0){
+                Helpers.getEco().depositPlayer(p, rMoney);
+                Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + rMoney);
+            }
+            if(command != null){
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
+            }
             return;
         }
 
@@ -223,7 +233,17 @@ public class Reward implements CommandExecutor {
                 items.add (lItem);
             }
         }
-        if(items.isEmpty ()){
+        if(items.isEmpty ()){ // Adding money and command wihout opening gui since all items are null
+            LoadedItem randomItem = possibleItems.get (Helpers.GetRandom (0, possibleItems.size ()-1));
+            int rMoney = randomItem.ToMoney (rewardDays);
+            String command = randomItem.ToCommand (p);
+            if(rMoney != 0){
+                Helpers.getEco().depositPlayer(p, rMoney);
+                Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + rMoney);
+            }
+            if(command != null){
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
+            }
             return;
         }
         int lastIndex = items.size()-1;

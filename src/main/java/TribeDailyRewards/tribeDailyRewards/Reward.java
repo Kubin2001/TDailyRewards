@@ -365,7 +365,11 @@ public class Reward implements CommandExecutor {
         }
 
         Helpers.PlayerPositiveSound(p);
+        int newRewardDays = rewardDays +1;
+        if(newRewardDays >= MainConfig.maxDay){
+            newRewardDays = 1;
+        }
         Helpers.dates.put(uuid, LocalDateTime.now().plusHours (MainConfig.rewardHoursTime));
-        Helpers.data.put(uuid, rewardDays + 1);
+        Helpers.data.put(uuid, newRewardDays);
     }
 }

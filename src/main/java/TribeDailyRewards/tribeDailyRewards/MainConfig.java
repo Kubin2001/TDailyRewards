@@ -23,6 +23,7 @@ public class MainConfig {
     public static int timeOutHours = 25;
     public static int resetType = 1;
     public static int resetDaysRemove = 1;
+    public static int maxDay = 1_000_000;
     public static int rewardHoursTime = 24;
     public static int purgeData = 0;
     public static int purgeDays = 30;
@@ -76,6 +77,8 @@ public class MainConfig {
         if(resetDaysRemove > 1000){
             resetDaysRemove = 1000;
         }
+
+        maxDay = yamlConf.getInt("MaxDay", maxDay);
 
         rewardHoursTime = yamlConf.getInt ("RewardHoursTime",24);
         if(rewardHoursTime < 0){

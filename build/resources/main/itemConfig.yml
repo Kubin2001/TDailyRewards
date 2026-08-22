@@ -1,0 +1,193 @@
+# -------------TDailyRewards-------------
+# Day: Represents at which day player will get reward can be any number
+# If there is a break in days like 1,2,3,4,8,9...
+# All empty days will be treated as -1
+# -1 Is a special day which is called when no day is fulfilled perfect for unlimited rewards
+#
+# Item
+# Represents material which item uses so in reality what item you will get
+# Supports many conventions like:
+# IRON_INGOT
+# iron_ingot
+# iron ingot
+# Amount
+# Represent how many items you will get base is 1
+# Custom Name
+# Represents if item has custom name supports color coding like &6, &9, &2&l
+# Lore
+# Additional item info optional
+# Enchants
+# Allows for defining a list of enchantments supports overriding vanilla values
+# Money
+# Accepts number how much money player will gain base is 0
+# Scaling
+# Special attribute decides if present if money or amount is multiplied by the amount of days
+# player is above the reward day
+# Custom Massage
+# Overrides base massage which pops up when player gets the reward also supports color codes
+# JoinID
+# If join id exist or is not equal to 0 this item will be merged with other items with the same day and same join id
+# Command
+# Executes custom command in console use %player% to insert player name
+# -------------------------------------------
+# Example item just copy what you need from this one
+# SomeItem:
+#   Day: 1
+#   ScalingStart: 10
+#   Money: 200
+#   Item: diamond
+#   Amount: 4
+#   CustomName: '&2&lReward Diamond'
+#   Lore: 'Some custom lore'
+#   Enchants:
+#       sharpness: 5
+#       unbreaking: 3
+#       efficiency: 8
+#   CustomMessage: '&6&lYou just received your great reward'
+#   JoinID: 1
+#   Command: 'eco give %player% 100'
+# -------------------------------------------
+
+Day1Item1:
+  Day: 1
+  Item: iron ingot
+  Amount: 4
+Day2Item1:
+  Day: 2
+  Item: gold ingot
+  Amount: 4
+Day2Item2:
+  Day: 2
+  Item: redstone
+  Amount: 16
+Day3Item1:
+  Day: 3
+  Item: emerald
+  Amount: 4
+Day3Item2:
+  Day: 3
+  Item: diamond
+  Amount: 1
+Day4Item1:
+  Day: 4
+  Money: 100
+Day4Item2:
+  Day: 4
+  Item: oak log
+  Amount: 64
+Day5Item1:
+  Day: 5
+  Item: diamond
+  Amount: 2
+Day5Item2:
+  Day: 5
+  Item: iron block
+  Amount: 4
+Day6Item1:
+  Day: 6
+  Item: golden carrot
+  Amount: 32
+Day6Item2:
+  Day: 6
+  Item: cooked beef
+  Amount: 32
+Day7Item1:
+  Day: 7
+  Item: netherite scrap
+  Amount: 1
+Day7Item2:
+  Day: 7
+  Item: blaze rod
+  Amount: 16
+Day8Item1:
+  Day: 8
+  Item: golden apple
+  Amount: 2
+Day8Item2:
+  Day: 8
+  Item: diamond
+  Amount: 4
+Day9Item1:
+  Day: 9
+  Money: 200
+Day9Item2:
+  Day: 9
+  Item: diamond chestplate
+  Amount: 1
+Day10Item1:
+  Day: 10
+  Item: golden carrot
+  Amount: 64
+Day10Item2:
+  Day: 10
+  Item: diamond block
+  Amount: 1
+Day11Item1:
+  Day: 11
+  Item: obsidian
+  Amount: 64
+Day11Item2:
+  Day: 11
+  Item: netherite scrap
+  Amount: 2
+Day12Item1:
+  Day: 12
+  Item: iron block
+  Amount: 16
+Day12Item2:
+  Day: 12
+  Item: gold block
+  Amount: 16
+Day13Item1:
+  Day: 13
+  Item: experience bottle
+  Amount: 64
+Day14Item1:
+  Day: 14
+  Item: netherite ingot
+  Amount: 1
+Day15Item1:
+  Day: 15
+  Item: shulker shell
+  Amount: 2
+Day15Item2:
+  Day: 15
+  Item: netherite ingot
+  Amount: 1
+Day16Item1:
+  Day: 16
+  Money: 400
+Day16Item2:
+  Day: 16
+  Item: heart of the sea
+  Amount: 1
+Day17Item1:
+  Day: 17
+  Item: ghast tear
+  Amount: 16
+Day18Item1:
+  Day: 18
+  Item: netherite ingot
+  Amount: 2
+Day19Item1:
+  Day: 19
+  Item: totem of undying
+  Amount: 3
+Day20Item1:
+  Day: 20
+  Item: netherite upgrade smithing template
+  Amount: 1
+Day-1Item1:
+  Day: -1
+  ScalingStart: 20
+  Money: 100
+Day-1Item2:
+  Day: -1
+  ScalingStart: 20
+  Item: diamond
+  Amount: 1
+Day-1Item3:
+  Day: -1
+  ScalingStart: 20
+  Item: iron block
+  Amount: 1

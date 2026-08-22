@@ -11,14 +11,15 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.io.IOException;
 
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
+import java.nio.file.StandardCopyOption;
 
 public class ItemParser {
     private static File configFile;
-    private static YamlConfiguration yamlConf;
     public static HashMap<Integer, ArrayList<LoadedItem>> loadedItems = new HashMap<>();
     public static HashMap<Integer, Integer> itemHelper = new HashMap<>(); // Dzień Ilośc
 
@@ -30,197 +31,23 @@ public class ItemParser {
 
     static void Init(Plugin plugin) {
         configFile = new File(plugin.getDataFolder(), "itemConfig.yml");
-        if (!configFile.exists()) {
-            yamlConf = new YamlConfiguration();
-            List<String> comments = new ArrayList<String>();
-            comments.add("-------------TDailyRewards-------------");
-            comments.add("Day: Represents at which day player will get reward can be any number");
-            comments.add("If there is a break in days like 1,2,3,4,8,9...");
-            comments.add("All empty days will be treated as -1");
-            comments.add("-1 Is a special day which is called when no day is fulfilled perfect for unlimited rewards");
-            comments.add("");
-            comments.add("Item");
-            comments.add("Represents material which item uses so in reality what item you will get");
-            comments.add("Supports many conventions like:");
-            comments.add("IRON_INGOT");
-            comments.add("iron_ingot");
-            comments.add("iron ingot");
-            comments.add("Amount");
-            comments.add("Represent how many items you will get base is 1");
-            comments.add("Custom Name");
-            comments.add("Represents if item has custom name supports color coding like &6, &9, &2&l");
-            comments.add("Lore");
-            comments.add("Additional item info optional");
-            comments.add("Enchants");
-            comments.add("Allows for defining a list of enchantments supports overriding vanilla values");
-            comments.add("Money");
-            comments.add("Accepts number how much money player will gain base is 0");
-            comments.add("Scaling");
-            comments.add("Special attribute decides if present if money or amount is multiplied by the amount of days");
-            comments.add("player is above the reward day");
-            comments.add("Custom Massage");
-            comments.add("Overrides base massage which pops up when player gets the reward also supports color codes");
-            comments.add("JoinID");
-            comments.add("If join id exist or is not equal to 0 this item will be merged with other " +
-                    "items with the same day and same join id");
-            comments.add("Command");
-            comments.add("Executes custom command in console use %player% to insert player name");
-            comments.add("-------------------------------------------");
-            comments.add("Example item just copy what you need from this one");
-            comments.add("SomeItem:");
-            comments.add("  Day: 1");
-            comments.add("  ScalingStart: 10");
-            comments.add("  Money: 200");
-            comments.add("  Item: diamond");
-            comments.add("  Amount: 4");
-            comments.add("  CustomName: '&2&lReward Diamond'");
-            comments.add("  Lore: 'Some custom lore'");
-            comments.add("  Enchants:");
-            comments.add("      sharpness: 5");
-            comments.add("      unbreaking: 3");
-            comments.add("      efficiency: 8");
-            comments.add("  CustomMessage: '&6&lYou just received your great reward'");
-            comments.add("  JoinID: 1");
-            comments.add("  Command: 'eco give %player% 100'");
-            comments.add("-------------------------------------------");
+        if(!configFile.exists()){
+            String fileName = "itemConfig.yml";
 
-            yamlConf.options().setHeader(comments);
-            //CreateItem(3,Material.EMERALD,4,"&6Szmaragd uszaty śmieszny",null,0);
-
-            CreateItem(1, Material.IRON_INGOT, 4);
-
-            CreateItem(2, Material.GOLD_INGOT, 4);
-            CreateItem(2, Material.REDSTONE, 16);
-
-            CreateItem(3, Material.EMERALD, 4);
-            CreateItem(3, Material.DIAMOND, 1);
-
-            CreateMoney(4, 100);
-            CreateItem(4, Material.OAK_LOG, 64);
-
-            CreateItem(5, Material.DIAMOND, 2);
-            CreateItem(5, Material.IRON_BLOCK, 4);
-
-            CreateItem(6, Material.GOLDEN_CARROT, 32);
-            CreateItem(6, Material.COOKED_BEEF, 32);
-
-            CreateItem(7, Material.NETHERITE_SCRAP, 1);
-            CreateItem(7, Material.BLAZE_ROD, 16);
-
-            CreateItem(8, Material.GOLDEN_APPLE, 2);
-            CreateItem(8, Material.DIAMOND, 4);
-
-            CreateMoney(9, 200);
-            CreateItem(9, Material.DIAMOND_CHESTPLATE, 1);
-
-            CreateItem(10, Material.GOLDEN_CARROT, 64);
-            CreateItem(10, Material.DIAMOND_BLOCK, 1);
-
-            CreateItem(11, Material.OBSIDIAN, 64);
-            CreateItem(11, Material.NETHERITE_SCRAP, 2);
-
-            CreateItem(12, Material.IRON_BLOCK, 16);
-            CreateItem(12, Material.GOLD_BLOCK, 16);
-
-            CreateItem(13, Material.EXPERIENCE_BOTTLE, 64);
-
-            CreateItem(14, Material.NETHERITE_INGOT, 1);
-
-            CreateItem(15, Material.SHULKER_SHELL, 2);
-            CreateItem(15, Material.NETHERITE_INGOT, 1);
-
-            CreateMoney(16, 400);
-            CreateItem(16, Material.HEART_OF_THE_SEA, 1);
-
-            CreateItem(17, Material.GHAST_TEAR, 16);
-
-            CreateItem(18, Material.NETHERITE_INGOT, 2);
-
-            CreateItem(19, Material.TOTEM_OF_UNDYING, 3);
-
-            CreateItem(20, Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, 1);
-
-            CreateMoneyScaling(-1, 100, 20);
-            CreateItemFull(-1, Material.DIAMOND, 1, null, null, 0, 20, 0);
-            CreateItemFull(-1, Material.IRON_BLOCK, 1, null, null, 0, 20, 0);
-
-            try {
-                yamlConf.save(configFile);
-                Bukkit.getLogger().info("[ItemParser] Created default itemConfig.yml");
-            } catch (IOException e) {
-                e.printStackTrace();
+            try(InputStream stream = plugin.getResource(fileName)){
+                if(stream == null) {
+                    plugin.getLogger().info("Error when streaming config please report this on plugin discord");
+                    return;
+                }
+                Files.copy(stream, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
-            ParseConfig(yamlConf);
-        } else {
-            Bukkit.getLogger().info("Parsing item config");
-            yamlConf = YamlConfiguration.loadConfiguration(configFile);
-            ParseConfig(yamlConf);
-        }
-    }
-
-    static private void CreateItem(int day, Material material, int amount) {
-        CreateItem(day, material, amount, null, null, 0);
-    }
-
-    static private void CreateMoney(int day, int money) {
-        CreateItemFull(day, null, 0, null, null, money, -1, 0);
-    }
-
-    static private void CreateMoneyScaling(int day, int money, int scaling) {
-        CreateItemFull(day, null, 0, null, null, money, scaling, 0);
-    }
-
-    static private void CreateItemAndMoney(int day, Material material, int amount,
-                                           String customName, ArrayList<FullEnchant> enchants, int money) {
-        CreateItem(day, null, 0, null, null, money);
-    }
-
-    static private void CreateItem(int day, Material material, int amount,
-                                   String customName, ArrayList<FullEnchant> enchants, int money) {
-        CreateItemFull(day, material, amount, customName, enchants, money, -1, 0);
-    }
-
-    static private void CreateItemFull(int day, Material material, int amount,
-                                       String customName, ArrayList<FullEnchant> enchants,
-                                       int money, int scaling, int joinID) {
-        Integer count = itemHelper.get(day);
-        if (count == null) { // If this day was not defined previously
-            itemHelper.put(day, 1);
-            count = 1;
-        } else {
-            itemHelper.put(day, count + 1); // if it was defined
-            count += 1;
-        }
-
-        String name = "Day" + day + "Item" + count;
-        ConfigurationSection sec = yamlConf.createSection(name);
-        if (joinID != 0) {
-            sec.set("JoinID", joinID);
-        }
-        sec.set("Day", day);
-        if (scaling != -1) {
-            sec.set("ScalingStart", scaling);
-        }
-        if (money > 0) {
-            sec.set("Money", money);
-        }
-        if (material != null) {
-            sec.set("Item", material.toString().toLowerCase(Locale.ROOT).replace("_"," "));
-            sec.set("Amount", amount);
-            if (customName != null) {
-                sec.set("CustomName", customName);
-            }
-            if (enchants == null) {
+            catch (IOException e){
+                plugin.getLogger().info("Error when loading config please report this on plugin discord");
                 return;
             }
-
-            ConfigurationSection enchantSection = sec.createSection("Enchants");
-            for (FullEnchant ench : enchants) {
-                NamespacedKey key = ench.enchant.getKey();
-                String keyString = key.toString().substring("minecraft:".length());
-                enchantSection.set(keyString, ench.level);
-            }
         }
+        YamlConfiguration yamlConf = YamlConfiguration.loadConfiguration(configFile);
+        ParseConfig(yamlConf);
     }
 
     static private String ParseItem(String itemStr){

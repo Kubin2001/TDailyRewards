@@ -4,18 +4,18 @@
 
 **Highly customizable daily reward plugin for Minecraft Java Edition.**
 
-![Version](https://img.shields.io/badge/version-1.4.1-blue)
+![Version](https://img.shields.io/badge/version-1.4.2-blue)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 
 </div>
 
 ---
 
-## 🧐 About
+## About
 
 **TDailyRewards** is a very lightweight solution designed with performance in mind. No database setup required (YAML based). It allows server owners to reward players for regular activity with complete control over the rewards.
 
-## 🚀 Features
+## Features
 
 * ⚡ **Lightweight:** No SQL required, almost zero performance impact.
 * ⚙️ **Extremely customizable:** Configure items, custom names, messages, enchantments, scaling, and much more.

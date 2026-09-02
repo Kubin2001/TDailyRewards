@@ -42,11 +42,11 @@ public class MainConfig {
         File file = plugin.getDataFolder();
         File configFile = new File(file, "config.yml");
         if (!configFile.exists()) {
-            Bukkit.getLogger().info("[DailyReward] generating mainConfig");
+            Bukkit.getLogger().info("[TDaily Rewards] generating mainConfig");
             plugin.saveResource("config.yml", false);
         }
 
-        Bukkit.getLogger().info("[DailyReward] loading mainConfig");
+        Bukkit.getLogger().info("[TDaily Rewards] loading mainConfig");
         YamlConfiguration yamlConf = YamlConfiguration.loadConfiguration(configFile);
         langName = yamlConf.getString("UsedLanguage", "en");
         rewardType = yamlConf.getInt("RewardType", 1);

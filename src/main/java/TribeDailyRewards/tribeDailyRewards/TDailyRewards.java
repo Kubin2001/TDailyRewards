@@ -17,8 +17,6 @@ public final class TDailyRewards extends JavaPlugin {
     public File playerDataFolder = null;
     private final Map<UUID, Integer> data = new HashMap<>();
     private final Map<UUID, LocalDateTime> dates = new HashMap<>();
-    private static Economy eco;
-    private Random random = new Random();
 
 
     public void LoadPlayer(UUID uuid) {
@@ -83,7 +81,7 @@ public final class TDailyRewards extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Bukkit.getLogger().info("[Daily Reward] Init");
+        Bukkit.getLogger().info("[TDaily Rewards] Starting...");
         File dataFolder = getDataFolder();
 
         if (!dataFolder.exists()) {
@@ -101,9 +99,10 @@ public final class TDailyRewards extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        Helpers.Init(data, dates);
         SetupEconomy();
         ItemParser.Init(this);
-        Helpers.Init(data, dates, eco);
+
         getServer().getPluginManager().registerEvents(new TEventListener(this), this);
         getCommand("reward").setExecutor(new Reward(this));
         getCommand("reload").setExecutor(new CommandRestart(this));
@@ -140,23 +139,21 @@ public final class TDailyRewards extends JavaPlugin {
         Bukkit.getLogger().info("[Daily Reward] Closing");
     }
 
-    private boolean SetupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            getLogger().warning("Vault nie znaleziony!");
-            return false;
+    private void SetupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") != null) {
+            VaultHook ecoHook = new VaultHook();
+            if (ecoHook.SetupEconomy()) {
+                Helpers.ecoHook = ecoHook;
+                Helpers.hasEconomy = true;
+                getLogger().info("[T Daily Rewards] Vault found economy integrated");
+            } else {
+                Helpers.hasEconomy = false;
+                getLogger().warning("[T Daily Rewards] Vault found but no plugin provides economy");
+            }
         }
-
-        var rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            getLogger().warning("Brak zarejestrowanego dostawcy ekonomii!");
-            return false;
+        else {
+            Helpers.hasEconomy = false;
+            getLogger().info("[T Daily Rewards] No vault found money trading will be disabled");
         }
-
-        eco = rsp.getProvider();
-        return eco != null;
-    }
-
-    public Economy GetEco() {
-        return eco;
     }
 }

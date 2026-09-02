@@ -1,6 +1,5 @@
 package TribeDailyRewards.tribeDailyRewards;
 
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -9,28 +8,35 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 public class Helpers {
     private static Random rand = null;
-    private static Economy eco = null;
+
+    public static VaultHook ecoHook = null;
+
+    public static boolean hasEconomy = false;
 
     public static Map<UUID, Integer> data = null;
     public static Map<UUID, LocalDateTime> dates = null;
 
-    public static void Init(Map<UUID, Integer> dataMap, Map<UUID, LocalDateTime> datesMap, Economy ecoP) {
+    public static void Init(Map<UUID, Integer> dataMap, Map<UUID, LocalDateTime> datesMap) {
         data = dataMap;
         dates = datesMap;
         rand = new Random();
-        eco = ecoP;
     }
 
-    public static Economy getEco() {
-        return eco;
+    public static void SafeDeposit(int value, Player p){
+        if (!Helpers.hasEconomy){
+            Bukkit.getLogger().info("[T Daily Rewards] Warning tried to use money in reward without vault or money" +
+                    " system provider");
+            return;
+        }
+        Helpers.ecoHook.getEconomy().depositPlayer(p, value);
     }
+
 
     public static String CFormat(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);

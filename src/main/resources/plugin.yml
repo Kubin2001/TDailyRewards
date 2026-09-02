@@ -1,5 +1,5 @@
 name: TDailyRewards
-version: '1.4.2'
+version: '1.4.3'
 main: TribeDailyRewards.tribeDailyRewards.TDailyRewards
 api-version: '1.21'
 

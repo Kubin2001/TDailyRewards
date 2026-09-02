@@ -120,8 +120,8 @@ public class LoadedItem {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),command);
         }
         int money = ToMoney(rewardDays);
-        if (money != 0) {
-            Helpers.getEco().depositPlayer(p, money);
+        if (money != 0 && Helpers.hasEconomy) {
+            Helpers.ecoHook.getEconomy().depositPlayer(p, money);
             Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
         }
     }

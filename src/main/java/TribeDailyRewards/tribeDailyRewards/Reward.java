@@ -85,7 +85,7 @@ public class Reward implements CommandExecutor {
 
             }
             if (money != 0) {
-                Helpers.getEco().depositPlayer(p, money);
+                Helpers.SafeDeposit(money, p);
                 if (lItem.cutomMassage == null) {
                     Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
                 }
@@ -127,7 +127,7 @@ public class Reward implements CommandExecutor {
             slot++;
         }
         if (money != 0) {
-            Helpers.getEco().depositPlayer(p, money);
+            Helpers.SafeDeposit(money, p);
             Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
         }
         p.openInventory(rewardGui);
@@ -152,8 +152,8 @@ public class Reward implements CommandExecutor {
             LoadedItem randomItem = possibleItems.get (Helpers.GetRandom (0, possibleItems.size ()-1));
             int rMoney = randomItem.ToMoney (rewardDays);
             String command = randomItem.ToCommand (p);
-            if(rMoney != 0){
-                Helpers.getEco().depositPlayer(p, rMoney);
+            if (rMoney != 0) {
+                Helpers.SafeDeposit(rMoney, p);
                 Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + rMoney);
             }
             if(command != null){
@@ -170,7 +170,7 @@ public class Reward implements CommandExecutor {
 
         int money = finalLItem.ToMoney(rewardDays);
         if (money != 0) {
-            Helpers.getEco().depositPlayer(p, money);
+            Helpers.SafeDeposit(money, p);
             Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
         }
 
@@ -237,8 +237,8 @@ public class Reward implements CommandExecutor {
             LoadedItem randomItem = possibleItems.get (Helpers.GetRandom (0, possibleItems.size ()-1));
             int rMoney = randomItem.ToMoney (rewardDays);
             String command = randomItem.ToCommand (p);
-            if(rMoney != 0){
-                Helpers.getEco().depositPlayer(p, rMoney);
+            if (rMoney != 0) {
+                Helpers.SafeDeposit(rMoney, p);
                 Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + rMoney);
             }
             if(command != null){
@@ -303,7 +303,7 @@ public class Reward implements CommandExecutor {
                     }
                     int money = finalItem.ToMoney(rewardDays);
                     if (money != 0) {
-                        Helpers.getEco().depositPlayer(p, money);
+                        Helpers.SafeDeposit(money, p);
                         Helpers.SendFormated(p, Lang.GetTrans("RewardMoneyInfo") + money);
                     }
                     rewardGui.clear ();

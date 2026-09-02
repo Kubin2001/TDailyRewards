@@ -103,6 +103,10 @@ public class ItemParser {
                 }
             }
             int money = confItem.getInt("Money", 0);
+            if(money != 0 && !Helpers.hasEconomy){
+                Bukkit.getLogger().info("[T Daily Rewards] WARNING item has declared money when so money provider of vault is loaded in the server" +
+                        " item key: " + selectionItem);
+            }
             loadedItems.get(day).add(new LoadedItem(material, customName, lore, amount, enchants, money, scale, joinID,command));
             LoadedItem item = loadedItems.get(day).getLast();
             item.cutomMassage = confItem.getString("CustomMessage", null);

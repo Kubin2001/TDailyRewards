@@ -71,7 +71,7 @@ public class ItemParser {
             }
             String materialStr = ParseItem(confItem.getString("Item", ""));
             Material material = Material.getMaterial(materialStr);
-            if(!materialStr.isEmpty() && material == null){ // If it "" it is fine
+            if(!materialStr.isEmpty() && material == null){ // If it is "" it is fine
                 material = Material.DIRT;
                 Bukkit.getLogger().info("Unexisting material in item: " +confItem.toString() +
                         "wrong name: " + materialStr + " this reward will give dirt until fixed");
@@ -104,7 +104,7 @@ public class ItemParser {
             }
             int money = confItem.getInt("Money", 0);
             if(money != 0 && !Helpers.hasEconomy){
-                Bukkit.getLogger().info("[T Daily Rewards] WARNING item has declared money when so money provider of vault is loaded in the server" +
+                Bukkit.getLogger().info("[T Daily Rewards] WARNING item has section money when no money provider of vault is loaded in the server" +
                         " item key: " + selectionItem);
             }
             loadedItems.get(day).add(new LoadedItem(material, customName, lore, amount, enchants, money, scale, joinID,command));

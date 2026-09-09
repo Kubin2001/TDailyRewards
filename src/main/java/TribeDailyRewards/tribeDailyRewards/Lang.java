@@ -40,7 +40,7 @@ public class Lang {
         mainSec.set("WrongArgs2", "&4Incorrect Arguments Expected [Username] [Value]");
         mainSec.set("TextToNum", "&4ERROR you need to provide number");
         mainSec.set("NotOnline", "&4Player is not on the server");
-        mainSec.set("SetTo", "Value set to: ");
+        mainSec.set("SetTo", "&2Reward day set to: ");
         mainSec.set("WrongArgs1", "&4Incorrect Arguments One Expected Username: ");
         mainSec.set("ResetFor", "&7Reward timer restarted...");
         mainSec.set("LevelInfo", "Reward Day: ");
@@ -79,7 +79,7 @@ public class Lang {
         mainSec.set("WrongArgs2", "&4Niepoprawne argumenty komenda wymaga: [Nick Gracza] [Wartość]");
         mainSec.set("TextToNum", "&4Bład musisz podac numer");
         mainSec.set("NotOnline", "&4Gracz nie jest na serwerze");
-        mainSec.set("SetTo", "Wartość ustawiona na: ");
+        mainSec.set("SetTo", "&2Dzień nagrody ustawiony na: ");
         mainSec.set("WrongArgs1", "&4Niepoprawna liczba argumentów oczekiwano [nazwa gracza]: ");
         mainSec.set("ResetFor", "&7Dany gracz może już teraz odebrać nagrodę");
         mainSec.set("LevelInfo", "Dzień nagrody: ");
